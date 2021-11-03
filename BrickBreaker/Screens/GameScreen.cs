@@ -59,12 +59,12 @@ namespace BrickBreaker
             int paddleHeight = 20;
             int paddleX = ((this.Width / 2) - (paddleWidth / 2));
             int paddleY = (this.Height - paddleHeight) - 60;
-            int paddleSpeed = 8;
+            int paddleSpeed = 5;
             paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.White);
 
             // setup starting ball values
             int ballX = this.Width / 2 - 10;
-            int ballY = this.Height - paddle.height - 80;
+            int ballY = this.Height - Convert.ToInt32(paddle.height) - 80;
 
             // Creates a new ball
             int xSpeed = 6;
@@ -148,8 +148,8 @@ namespace BrickBreaker
                 lives--;
 
                 // Moves the ball back to origin
-                ball.x = ((paddle.x - (ball.size / 2)) + (paddle.width / 2));
-                ball.y = (this.Height - paddle.height) - 85;
+                ball.x = ((Convert.ToInt32(paddle.x) - (ball.size / 2)) + (Convert.ToInt32(paddle.width) / 2));
+                ball.y = (this.Height - Convert.ToInt32(paddle.height)) - 85;
 
                 if (lives == 0)
                 {
@@ -177,6 +177,8 @@ namespace BrickBreaker
                     break;
                 }
             }
+
+            paddle.updatePosition(this.Width);
 
             //redraw the screen
             Refresh();
