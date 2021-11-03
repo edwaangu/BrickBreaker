@@ -24,6 +24,7 @@ namespace BrickBreaker
 
         // Game values
         int lives;
+        int powerupCounter;
 
         // Paddle and Ball objects
         Paddle paddle;
@@ -166,7 +167,14 @@ namespace BrickBreaker
             {
                 if (ball.BlockCollision(b))
                 {
+                    powerupCounter++;
                     blocks.Remove(b);
+
+                    if (powerupCounter == 5)
+                    {
+
+                        powerupCounter = 0;
+                    }
 
                     if (blocks.Count == 0)
                     {
