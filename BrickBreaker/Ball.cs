@@ -19,7 +19,6 @@ namespace BrickBreaker
             ySpeed = _ySpeed;
             size = _ballSize;
             image = _image;
-
         }
 
         public void Move()
