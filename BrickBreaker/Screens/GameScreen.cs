@@ -40,6 +40,8 @@ namespace BrickBreaker
         // Should ball move
         bool ballMoving = false;
 
+        Image brickImage = Properties.Resources.whiteBrick2;
+
         #endregion
 
 
@@ -231,7 +233,7 @@ namespace BrickBreaker
             // Draws blocks
             foreach (Block b in blocks)
             {
-               e.Graphics.FillRectangle(blockBrush, b.x, b.y, b.width, b.height);
+                e.Graphics.DrawImage(brickImage, b.x, b.y, b.width, b.height);
             }
 
             // Draws ball
