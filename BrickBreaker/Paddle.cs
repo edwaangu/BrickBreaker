@@ -4,10 +4,11 @@ namespace BrickBreaker
 {
     public class Paddle
     {
-        public int x, y, width, height, speed;
+        public float x, y, width, height, speed;
+        public float xs = 0;
         public Color colour;
 
-        public Paddle(int _x, int _y, int _width, int _height, int _speed, Color _colour)
+        public Paddle(float _x, float _y, float _width, float _height, float _speed, Color _colour)
         {
             x = _x;
             y = _y;
@@ -21,11 +22,26 @@ namespace BrickBreaker
         {
             if (direction == "left")
             {
-                x -= speed;
+                xs -= speed;
             }
             if (direction == "right")
             {
-                x += speed;
+                xs += speed;
+            }
+        }
+
+        public void updatePosition(int widthScreen)
+        {
+            xs *= 0.8f;
+            x += xs;
+
+            if(x < 0)
+            {
+                x = 0;
+            }
+            if(x + width > widthScreen)
+            {
+                x = widthScreen - width;
             }
         }
     }
