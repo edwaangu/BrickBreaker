@@ -37,7 +37,12 @@ namespace BrickBreaker
         SolidBrush ballBrush = new SolidBrush(Color.White);
         SolidBrush blockBrush = new SolidBrush(Color.Red);
 
+        // Should ball move
+        bool ballMoving = false;
+
         #endregion
+
+
 
         public GameScreen()
         {
@@ -51,6 +56,9 @@ namespace BrickBreaker
             //set life counter
             lives = 3;
 
+            // MAKE SURE THE BALL FREEZES IN PLACE AND DIES
+            ballMoving = false;
+
             //set all button presses to false.
             leftArrowDown = rightArrowDown = false;
 
@@ -59,7 +67,7 @@ namespace BrickBreaker
             int paddleHeight = 20;
             int paddleX = ((this.Width / 2) - (paddleWidth / 2));
             int paddleY = (this.Height - paddleHeight) - 60;
-            int paddleSpeed = 5;
+            int paddleSpeed = 2; // 5
             paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.White);
 
             // setup starting ball values
@@ -67,8 +75,8 @@ namespace BrickBreaker
             int ballY = this.Height - Convert.ToInt32(paddle.height) - 80;
 
             // Creates a new ball
-            int xSpeed = 6;
-            int ySpeed = 6;
+            int xSpeed = 1; // 6
+            int ySpeed = 1; // 6
             int ballSize = 20;
             ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize);
 
@@ -103,6 +111,9 @@ namespace BrickBreaker
                 case Keys.Right:
                     rightArrowDown = true;
                     break;
+                case Keys.Space:
+                    ballMoving = true;
+                    break;
                 default:
                     break;
             }
@@ -136,8 +147,17 @@ namespace BrickBreaker
                 paddle.Move("right");
             }
 
+            paddle.updatePosition(this.Width);
+
             // Move ball
-            ball.Move();
+            if (ballMoving)
+            {
+                ball.Move();
+            }
+            else
+            {
+                ball.x = Convert.ToInt16(paddle.x + paddle.width / 2 - ball.size / 2);
+            }
 
             // Check for collision with top and side walls
             ball.WallCollision(this);
@@ -149,7 +169,8 @@ namespace BrickBreaker
 
                 // Moves the ball back to origin
                 ball.x = ((Convert.ToInt32(paddle.x) - (ball.size / 2)) + (Convert.ToInt32(paddle.width) / 2));
-                ball.y = (this.Height - Convert.ToInt32(paddle.height)) - 85;
+                ball.y = (this.Height - Convert.ToInt32(paddle.height)) - 80;
+                ballMoving = false;
 
                 if (lives == 0)
                 {
@@ -178,7 +199,6 @@ namespace BrickBreaker
                 }
             }
 
-            paddle.updatePosition(this.Width);
 
             //redraw the screen
             Refresh();

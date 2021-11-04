@@ -47,7 +47,29 @@ namespace BrickBreaker
 
             if (ballRec.IntersectsWith(paddleRec))
             {
-                ySpeed *= -1;
+                if(x > p.x - size - xSpeed && x < p.x - xSpeed + (p.width / 4 ) && y > p.y - size + 2 && y < p.y - 2)
+                {
+                    xSpeed = -Math.Abs(xSpeed);
+                    x = Convert.ToInt16(p.x - size - 2);
+                }
+                else if (x < p.x + p.width - xSpeed && x > p.x - size - xSpeed + p.width - (p.width / 4) && y > p.y - size + 2 && y < p.y - 2)
+                {
+                    xSpeed = Math.Abs(xSpeed);
+                    x = Convert.ToInt16(p.x + p.width + 2);
+                }
+                else if (x > p.x - size && x < p.x + p.width)
+                {
+                    if (y > p.y - size && y < p.y - size + (p.height / 2))
+                    {
+                        y = Convert.ToInt16(p.y - size);
+                        ySpeed = -Math.Abs(ySpeed);
+                    }
+                    else
+                    {
+                        y = Convert.ToInt16(p.y - size + p.height);
+                        ySpeed = Math.Abs(ySpeed);
+                    }
+                }
             }
         }
 
@@ -57,16 +79,19 @@ namespace BrickBreaker
             if (x <= 0)
             {
                 xSpeed *= -1;
+                x = 1;
             }
             // Collision with right wall
             if (x >= (UC.Width - size))
             {
                 xSpeed *= -1;
+                x = UC.Width - size - 1;
             }
             // Collision with top wall
             if (y <= 2)
             {
                 ySpeed *= -1;
+                y = 3;
             }
         }
 
