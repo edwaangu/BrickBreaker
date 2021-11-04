@@ -29,6 +29,7 @@ namespace BrickBreaker
         // Paddle and Ball objects
         Paddle paddle;
         Ball ball;
+        PowerUp powerUp;
 
         // list of all blocks for current level
         List<Block> blocks = new List<Block>();
@@ -51,6 +52,7 @@ namespace BrickBreaker
         {
             //set life counter
             lives = 3;
+            powerupCounter = 0;
 
             //set all button presses to false.
             leftArrowDown = rightArrowDown = false;
@@ -167,14 +169,9 @@ namespace BrickBreaker
             {
                 if (ball.BlockCollision(b))
                 {
-                    powerupCounter++;
                     blocks.Remove(b);
 
-                    if (powerupCounter == 5)
-                    {
-
-                        powerupCounter = 0;
-                    }
+                    PowerUpMethod();
 
                     if (blocks.Count == 0)
                     {
@@ -217,5 +214,64 @@ namespace BrickBreaker
             // Draws ball
             e.Graphics.FillRectangle(ballBrush, ball.x, ball.y, ball.size, ball.size);
         }
+
+        public void PowerUpMethod()
+        {
+            powerupCounter++;
+
+            if (powerupCounter == 5)
+            {
+                Random rand = new Random();
+                int powerUp = rand.Next(1, 6);
+
+                if (powerUp == 1)
+                {
+                    InstaBreak();
+                    powerupCounter = 0;
+                }
+                if (powerUp == 2)
+                {
+                    SpeedIncrease();
+                    powerupCounter = 0;
+                }
+                if (powerUp == 3)
+                {
+                    IncreasePaddleSize();
+                    powerupCounter = 0;
+                }
+                if (powerUp == 4)
+                {
+                    Gun();
+                    powerupCounter = 0;
+                }
+                else
+                {
+                    DaBabyLaunch();
+                    powerupCounter = 0;
+                }
+            }
+        }
+
+        public void InstaBreak()
+        {
+
+        }
+        public void SpeedIncrease()
+        {
+
+        }
+        public void IncreasePaddleSize()
+        {
+
+        }
+        public void Gun()
+        {
+
+        }
+        public void DaBabyLaunch()
+        {
+
+        }
     }
 }
+
