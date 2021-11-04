@@ -1,4 +1,4 @@
-﻿/*  Created by: 
+﻿/*  Created by: Team 2
  *  Project: Brick Breaker
  *  Date: 
  */ 
@@ -37,7 +37,12 @@ namespace BrickBreaker
         SolidBrush ballBrush = new SolidBrush(Color.White);
         SolidBrush blockBrush = new SolidBrush(Color.Red);
 
+        // Should ball move
+        bool ballMoving = false;
+
         #endregion
+
+
 
         public GameScreen()
         {
@@ -45,11 +50,18 @@ namespace BrickBreaker
             OnStart();
         }
 
-
+        private void GameScreen_Load(object sender, EventArgs e)
+        {
+            SoundPlayer daPlayer = new SoundPlayer(Properties.Resources.dababy2);
+            daPlayer.Play();
+        }
         public void OnStart()
         {
             //set life counter
             lives = 3;
+
+            // MAKE SURE THE BALL FREEZES IN PLACE AND DIES
+            ballMoving = false;
 
             //set all button presses to false.
             leftArrowDown = rightArrowDown = false;
@@ -59,16 +71,16 @@ namespace BrickBreaker
             int paddleHeight = 20;
             int paddleX = ((this.Width / 2) - (paddleWidth / 2));
             int paddleY = (this.Height - paddleHeight) - 60;
-            int paddleSpeed = 8;
+            int paddleSpeed = 3; // 5
             paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.White);
 
             // setup starting ball values
             int ballX = this.Width / 2 - 10;
-            int ballY = this.Height - paddle.height - 80;
+            int ballY = this.Height - Convert.ToInt32(paddle.height) - 80;
 
             // Creates a new ball
-            int xSpeed = 6;
-            int ySpeed = 6;
+            int xSpeed = 2; // 6
+            int ySpeed = 2; // 6
             int ballSize = 20;
             ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize);
 
@@ -103,6 +115,9 @@ namespace BrickBreaker
                 case Keys.Right:
                     rightArrowDown = true;
                     break;
+                case Keys.Space:
+                    ballMoving = true;
+                    break;
                 default:
                     break;
             }
@@ -136,8 +151,17 @@ namespace BrickBreaker
                 paddle.Move("right");
             }
 
+            paddle.updatePosition(this.Width);
+
             // Move ball
-            ball.Move();
+            if (ballMoving)
+            {
+                ball.Move();
+            }
+            else
+            {
+                ball.x = Convert.ToInt16(paddle.x + paddle.width / 2 - ball.size / 2);
+            }
 
             // Check for collision with top and side walls
             ball.WallCollision(this);
@@ -148,8 +172,9 @@ namespace BrickBreaker
                 lives--;
 
                 // Moves the ball back to origin
-                ball.x = ((paddle.x - (ball.size / 2)) + (paddle.width / 2));
-                ball.y = (this.Height - paddle.height) - 85;
+                ball.x = ((Convert.ToInt32(paddle.x) - (ball.size / 2)) + (Convert.ToInt32(paddle.width) / 2));
+                ball.y = (this.Height - Convert.ToInt32(paddle.height)) - 80;
+                ballMoving = false;
 
                 if (lives == 0)
                 {
@@ -178,6 +203,7 @@ namespace BrickBreaker
                 }
             }
 
+
             //redraw the screen
             Refresh();
         }
@@ -194,6 +220,8 @@ namespace BrickBreaker
             form.Controls.Remove(this);
         }
 
+       
+
         public void GameScreen_Paint(object sender, PaintEventArgs e)
         {
             // Draws paddle
@@ -203,7 +231,7 @@ namespace BrickBreaker
             // Draws blocks
             foreach (Block b in blocks)
             {
-                e.Graphics.FillRectangle(blockBrush, b.x, b.y, b.width, b.height);
+               e.Graphics.FillRectangle(blockBrush, b.x, b.y, b.width, b.height);
             }
 
             // Draws ball

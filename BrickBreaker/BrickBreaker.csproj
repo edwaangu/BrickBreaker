@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BrickBreaker</RootNamespace>
     <AssemblyName>BrickBreaker</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -131,10 +131,36 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="Resources\BALL.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\black-wall-texture-19.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\daMenuScreen.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1-white-brick-wall-dutourdumonde-photography.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\daGameScreen.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\levitating.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\under.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\[CLEAN] DaBaby - Ball If I Want To.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\flat,128x128,075,t-pad,128x128,f8f8f8.u4.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\whiteBrick2.jpg" />
+    <None Include="Resources\50d.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

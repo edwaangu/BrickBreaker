@@ -10975,6 +10975,31 @@
         /wLkluFv0TIAvaeJbWvMIPY7XYD6MKBbLvfBmBN/Hwmg9zcD8F8B9N4or1sgtwz/3lvxt/hfAH2QME8C
         3aoUR4XOGLpmt+fsNq7sXRpD51z0UF3afwvojKHT5U6gb4RSJ8wf2rhUY+j3rl+C70S9KvSQOx//Lhxa
         y90C+kAb3u1/gP41s17z/wD1RiKGQX7iKAAAAABJRU5ErkJggg==
-</value>
+  </value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="whiteBrick" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\1-white-brick-wall-dutourdumonde-photography.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="black-wall-texture-19" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\black-wall-texture-19.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="daMenuScreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\daMenuScreen.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="daGameScreen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\daGameScreen.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="levitating" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\levitating.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="dababy2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\[CLEAN] DaBaby - Ball If I Want To.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="under" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\under.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="whiteBrick2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\whiteBrick2.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
