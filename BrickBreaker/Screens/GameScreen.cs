@@ -84,7 +84,7 @@ namespace BrickBreaker
             int xSpeed = 2; // 6
             int ySpeed = 2; // 6
             int ballSize = 20;
-            ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize);
+            ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, Properties.Resources.black_wall_texture_19);
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
             
@@ -237,7 +237,7 @@ namespace BrickBreaker
             }
 
             // Draws ball
-            e.Graphics.DrawImage(Properties.Resources.BALL, ball.x, ball.y, ball.size, ball.size);
+            e.Graphics.DrawImage(ball.image, ball.x, ball.y, ball.size, ball.size);
         }
     }
 }
