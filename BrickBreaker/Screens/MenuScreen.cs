@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.Media;
 namespace BrickBreaker
 {
     public partial class MenuScreen : UserControl
@@ -16,7 +16,11 @@ namespace BrickBreaker
         {
             InitializeComponent();
         }
-
+        private void MenuScreen_Load(object sender, EventArgs e)
+        {
+            SoundPlayer daPlayer = new SoundPlayer(Properties.Resources.levitating);
+            daPlayer.Play();
+        }
         private void exitButton_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -34,5 +38,6 @@ namespace BrickBreaker
             gs.Location = new Point((form.Width - gs.Width) / 2, (form.Height - gs.Height) / 2);
         }
 
+      
     }
 }

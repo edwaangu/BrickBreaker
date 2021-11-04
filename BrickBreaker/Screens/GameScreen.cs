@@ -50,7 +50,11 @@ namespace BrickBreaker
             OnStart();
         }
 
-
+        private void GameScreen_Load(object sender, EventArgs e)
+        {
+            SoundPlayer daPlayer = new SoundPlayer(Properties.Resources.dababy2);
+            daPlayer.Play();
+        }
         public void OnStart()
         {
             //set life counter
@@ -216,6 +220,8 @@ namespace BrickBreaker
             form.Controls.Remove(this);
         }
 
+       
+
         public void GameScreen_Paint(object sender, PaintEventArgs e)
         {
             // Draws paddle
@@ -225,7 +231,7 @@ namespace BrickBreaker
             // Draws blocks
             foreach (Block b in blocks)
             {
-                e.Graphics.FillRectangle(blockBrush, b.x, b.y, b.width, b.height);
+               e.Graphics.FillRectangle(blockBrush, b.x, b.y, b.width, b.height);
             }
 
             // Draws ball
