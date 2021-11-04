@@ -6,12 +6,13 @@ namespace BrickBreaker
 {
     public class Ball
     {
-        public int x, y, xSpeed, ySpeed, size, image;
+        public int x, y, xSpeed, ySpeed, size;
+        public Image image;
         public Color colour;
 
         public static Random rand = new Random();
 
-        public Ball(int _x, int _y, int _xSpeed, int _ySpeed, int _ballSize, int _image)
+        public Ball(int _x, int _y, int _xSpeed, int _ySpeed, int _ballSize, Image _image)
         {
             x = _x;
             y = _y;
