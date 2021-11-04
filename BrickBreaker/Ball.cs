@@ -34,7 +34,29 @@ namespace BrickBreaker
 
             if (ballRec.IntersectsWith(blockRec))
             {
-                ySpeed *= -1;
+                if (x > b.x - size - xSpeed && x < b.x + (b.width / 4) - xSpeed && y > b.y - size + 5 && y < b.y + b.height - 5)
+                {
+                    xSpeed = -Math.Abs(xSpeed);
+                    x = Convert.ToInt16(b.x - size - 2);
+                }
+                else if (x < b.x + b.width - xSpeed && x > b.x - size - xSpeed + b.width - (b.width / 4) && y > b.y - size + 5 && y < b.y + b.height - 5)
+                {
+                    xSpeed = Math.Abs(xSpeed);
+                    x = Convert.ToInt16(b.x + b.width + 2);
+                }
+                else if (x > b.x - size + 5 && x < b.x + b.width - 5)
+                {
+                    if (y > b.y - size && y < b.y - size + (b.height / 2))
+                    {
+                        y = Convert.ToInt16(b.y - size);
+                        ySpeed = -Math.Abs(ySpeed);
+                    }
+                    else
+                    {
+                        y = Convert.ToInt16(b.y + b.height);
+                        ySpeed = Math.Abs(ySpeed);
+                    }
+                }
             }
 
             return blockRec.IntersectsWith(ballRec);
@@ -47,17 +69,17 @@ namespace BrickBreaker
 
             if (ballRec.IntersectsWith(paddleRec))
             {
-                if(x > p.x - size - xSpeed && x < p.x - xSpeed + (p.width / 2 ) && y > p.y - size + 2 && y < p.y - 2)
+                if(x > p.x - size - xSpeed && x < p.x + (p.width / 4) - xSpeed && y > p.y - size + 5 && y < p.y + p.height - 5)
                 {
-                    xSpeed = -Math.Abs(2);
+                    xSpeed = -Math.Abs(xSpeed);
                     x = Convert.ToInt16(p.x - size - 2);
                 }
-                else if (x < p.x + p.width - xSpeed && x > p.x - size - xSpeed + p.width - (p.width / 4) && y > p.y - size + 2 && y < p.y - 2)
+                else if (x < p.x + p.width - xSpeed && x > p.x - size - xSpeed + p.width - (p.width / 4) && y > p.y - size + 5 && y < p.y + p.height - 5)
                 {
                     xSpeed = Math.Abs(xSpeed);
                     x = Convert.ToInt16(p.x + p.width + 2);
                 }
-                else if (x > p.x - size && x < p.x + p.width)
+                else if (x > p.x - size + 5 && x < p.x + p.width - 5)
                 {
                     if (y > p.y - size && y < p.y - size + (p.height / 2))
                     {
@@ -66,7 +88,7 @@ namespace BrickBreaker
                     }
                     else
                     {
-                        y = Convert.ToInt16(p.y - size + p.height);
+                        y = Convert.ToInt16(p.y + p.height);
                         ySpeed = Math.Abs(ySpeed);
                     }
                 }
