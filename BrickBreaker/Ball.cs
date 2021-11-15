@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Media;
 
 namespace BrickBreaker
 {
@@ -9,6 +10,9 @@ namespace BrickBreaker
         public float x, y, xSpeed, ySpeed, size;
         public Image image;
         public Color colour;
+        bool playingsound = false;
+
+        SoundPlayer AhPlayer = new SoundPlayer(Properties.Resources.Ah);
 
         public static Random rand = new Random();
 
@@ -28,17 +32,30 @@ namespace BrickBreaker
             y = y + ySpeed;
         }
 
+        public void Playsound() 
+        {
+            if (playingsound == true)
+            {
+                AhPlayer.Play();
+                playingsound = false;
+            }
+      
+        }
+
         public bool BlockCollision(Block b)
         {
+            
             Rectangle blockRec = new Rectangle(b.x, b.y, b.width, b.height);
             Rectangle ballRec = new Rectangle(Convert.ToInt16(x), Convert.ToInt16(y), Convert.ToInt16(size), Convert.ToInt16(size));
 
             if (ballRec.IntersectsWith(blockRec))
             {
+                playingsound = true;
                 if (x > b.x - size - xSpeed && x < b.x + (b.width / 4) - xSpeed && y > b.y - size + 5 && y < b.y + b.height - 5)
                 {
                     xSpeed = -Math.Abs(xSpeed);
                     x = Convert.ToInt16(b.x - size - 2);
+                    //playingsound = true;
                 }
                 else if (x < b.x + b.width - xSpeed && x > b.x - size - xSpeed + b.width - (b.width / 4) && y > b.y - size + 5 && y < b.y + b.height - 5)
                 {

@@ -85,8 +85,8 @@ namespace BrickBreaker
 
             // Creates a new ball
             float dir = Convert.ToSingle(randGen.Next(0, 360));
-            float xSpeed = Convert.ToSingle(Math.Sin(dir / (180 / 3.14)) * 4); // 6
-            float ySpeed = Convert.ToSingle(Math.Cos(dir / (180 / 3.14)) * 4); // 6
+            float xSpeed = Convert.ToSingle(Math.Sin(dir / (180 / 3.14)) * 6); // 6
+            float ySpeed = Convert.ToSingle(Math.Cos(dir / (180 / 3.14)) * 6); // 6
             int ballSize = 20;
             ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, Properties.Resources.whiteBrick2);
 
@@ -180,8 +180,9 @@ namespace BrickBreaker
                 // Moves the ball back to origin
                 ball.x = ((Convert.ToInt32(paddle.x) - (ball.size / 2)) + (Convert.ToInt32(paddle.width) / 2));
                 ball.y = (this.Height - Convert.ToInt32(paddle.height)) - 80;
-                ball.xSpeed = Convert.ToSingle(randGen.NextDouble() * 8 - 4); // 6
-                ball.ySpeed = Convert.ToSingle(randGen.NextDouble() * 4); // 6
+                float dir = Convert.ToSingle(randGen.Next(0, 360));
+                ball.xSpeed = Convert.ToSingle(Math.Sin(dir / (180 / 3.14)) * 6); // 6
+                ball.ySpeed = Convert.ToSingle(Math.Cos(dir / (180 / 3.14)) * 6); // 6
                 ballMoving = false;
 
                 if (lives == 0)
@@ -193,6 +194,7 @@ namespace BrickBreaker
 
             // Check for collision of ball with paddle, (incl. paddle movement)
             ball.PaddleCollision(paddle);
+            ball.Playsound();
 
             // Check if ball has collided with any blocks
             foreach (Block b in blocks)
