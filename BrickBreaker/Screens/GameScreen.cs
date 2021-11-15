@@ -220,7 +220,7 @@ namespace BrickBreaker
             powerupCounter++;
 
             if (powerupCounter == 5)
-            {
+            {               
                 Random rand = new Random();
                 int powerUp = rand.Next(1, 6);
 
@@ -258,7 +258,11 @@ namespace BrickBreaker
         }
         public void SpeedIncrease()
         {
-
+            for (int i = 0; i < 15; i++)
+            {
+                ball.xSpeed = 10;
+            }
+            ball.xSpeed = 6;
         }
         public void IncreasePaddleSize()
         {
