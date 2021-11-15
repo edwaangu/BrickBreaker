@@ -9,6 +9,7 @@ namespace BrickBreaker
         public float x, y, xSpeed, ySpeed, size;
         public Image image;
         public Color colour;
+        bool playingSound = false;
 
         public static Random rand = new Random();
 
@@ -130,6 +131,11 @@ namespace BrickBreaker
             }
 
             return didCollide;
+        }
+
+        public void PlaySound()
+        {
+
         }
 
     }

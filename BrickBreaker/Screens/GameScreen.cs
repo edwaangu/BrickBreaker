@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Media;
+using System.Xml;
 
 namespace BrickBreaker
 {
@@ -24,6 +25,7 @@ namespace BrickBreaker
 
         // Game values
         int lives;
+        int level;
         int powerupCounter;
 
         // Paddle and Ball objects
@@ -62,6 +64,57 @@ namespace BrickBreaker
             SoundPlayer daPlayer = new SoundPlayer(Properties.Resources.dababy2);
             daPlayer.Play();
         }
+
+        void SetupLevel(int _level)
+        {
+            blocks.Clear();
+
+            XmlReader reader = XmlReader.Create("XML.xml");
+
+            int thelevel = -1;
+            while (reader.Read())
+            {
+                if(reader.NodeType == XmlNodeType.Element && reader.Name == "Level")
+                {
+                    thelevel++;
+                }
+                if (thelevel == _level)
+                {
+                    if (reader.NodeType == XmlNodeType.Text)
+                    {
+                        int __x = Convert.ToInt16(reader.ReadString());
+                        reader.ReadToFollowing("y");
+                        int __y = Convert.ToInt16(reader.ReadString());
+                        reader.ReadToFollowing("type");
+                        int __type = Convert.ToInt16(reader.ReadString());
+
+                        blocks.Add(new Block(__x, __y, __type, Color.White));
+                    }
+                }
+            }
+
+            reader.Close();
+        }
+
+        void NewLevel()
+        {
+            level++;
+            SetupLevel(level);
+            if(blocks.Count == 0)
+            {
+                gameTimer.Enabled = false;
+                OnEnd();
+                return;
+            }
+            // Moves the ball back to origin
+            ball.x = ((Convert.ToInt32(paddle.x) - (ball.size / 2)) + (Convert.ToInt32(paddle.width) / 2));
+            ball.y = (this.Height - Convert.ToInt32(paddle.height)) - 80;
+            float dir = Convert.ToSingle(randGen.Next(0, 360));
+            ball.xSpeed = Convert.ToSingle(Math.Sin(dir / (180 / 3.14)) * 4); // 6
+            ball.ySpeed = Convert.ToSingle(Math.Cos(dir / (180 / 3.14)) * 4); // 6
+            ballMoving = false;
+        }
+
         public void OnStart()
         {
             //set life counter
@@ -93,21 +146,9 @@ namespace BrickBreaker
             int ballSize = 20;
             ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, Properties.Resources.whiteBrick2);
 
-            #region Creates blocks for generic level. Need to replace with code that loads levels.
-            
-            //TODO - replace all the code in this region eventually with code that loads levels from xml files
-            
-            blocks.Clear();
-            int x = 10;
-
-            while (blocks.Count < 12)
-            {
-                x += 57;
-                Block b1 = new Block(x, 10, 1, Color.White);
-                blocks.Add(b1);
-            }
-
-            #endregion
+            // Setup level
+            level = 0;
+            SetupLevel(level);
 
             // start the game engine loop
             gameTimer.Enabled = true;
@@ -209,8 +250,7 @@ namespace BrickBreaker
 
                     if (blocks.Count == 0)
                     {
-                        gameTimer.Enabled = false;
-                        OnEnd();
+                        NewLevel();
                     }
 
                     break;
