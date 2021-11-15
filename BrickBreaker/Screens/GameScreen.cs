@@ -1,6 +1,6 @@
-﻿/*  Created by: Team 2
+﻿/*  Created by: Team 2 (Ted, Matt, Bilal, Dylan, and Colbey)
  *  Project: Brick Breaker
- *  Date: 
+ *  Date Started: 11/3/2021 - __/__/2021
  */ 
 using System;
 using System.Collections.Generic;
@@ -180,8 +180,9 @@ namespace BrickBreaker
                 // Moves the ball back to origin
                 ball.x = ((Convert.ToInt32(paddle.x) - (ball.size / 2)) + (Convert.ToInt32(paddle.width) / 2));
                 ball.y = (this.Height - Convert.ToInt32(paddle.height)) - 80;
-                ball.xSpeed = Convert.ToSingle(randGen.NextDouble() * 8 - 4); // 6
-                ball.ySpeed = Convert.ToSingle(randGen.NextDouble() * 4); // 6
+                float dir = Convert.ToSingle(randGen.Next(0, 360));
+                ball.xSpeed = Convert.ToSingle(Math.Sin(dir / (180 / 3.14)) * 4); // 6
+                ball.ySpeed = Convert.ToSingle(Math.Cos(dir / (180 / 3.14)) * 4); // 6
                 ballMoving = false;
 
                 if (lives == 0)
