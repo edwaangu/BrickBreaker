@@ -1,6 +1,6 @@
-﻿/*  Created by: 
+﻿/*  Created by: Team 2 (Ted, Matt, Bilal, Dylan, and Colbey)
  *  Project: Brick Breaker
- *  Date: 
+ *  Date Started: 11/3/2021 - __/__/2021
  */ 
 using System;
 using System.Collections.Generic;
@@ -37,7 +37,17 @@ namespace BrickBreaker
         SolidBrush ballBrush = new SolidBrush(Color.White);
         SolidBrush blockBrush = new SolidBrush(Color.Red);
 
+        // Random
+        Random randGen = new Random();
+
+        // Should ball move
+        bool ballMoving = false;
+
+        Image brickImage = Properties.Resources.whiteBrick2;
+
         #endregion
+
+
 
         public GameScreen()
         {
@@ -45,11 +55,18 @@ namespace BrickBreaker
             OnStart();
         }
 
-
+        private void GameScreen_Load(object sender, EventArgs e)
+        {
+            SoundPlayer daPlayer = new SoundPlayer(Properties.Resources.dababy2);
+            daPlayer.Play();
+        }
         public void OnStart()
         {
             //set life counter
             lives = 3;
+
+            // MAKE SURE THE BALL FREEZES IN PLACE AND DIES
+            ballMoving = false;
 
             //set all button presses to false.
             leftArrowDown = rightArrowDown = false;
@@ -59,18 +76,19 @@ namespace BrickBreaker
             int paddleHeight = 20;
             int paddleX = ((this.Width / 2) - (paddleWidth / 2));
             int paddleY = (this.Height - paddleHeight) - 60;
-            int paddleSpeed = 8;
+            int paddleSpeed = 3; // 5
             paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight, paddleSpeed, Color.White);
 
             // setup starting ball values
-            int ballX = this.Width / 2 - 10;
-            int ballY = this.Height - paddle.height - 80;
+            float ballX = this.Width / 2 - 10;
+            float ballY = this.Height - Convert.ToInt32(paddle.height) - 80;
 
             // Creates a new ball
-            int xSpeed = 6;
-            int ySpeed = 6;
+            float dir = Convert.ToSingle(randGen.Next(0, 360));
+            float xSpeed = Convert.ToSingle(Math.Sin(dir / (180 / 3.14)) * 4); // 6
+            float ySpeed = Convert.ToSingle(Math.Cos(dir / (180 / 3.14)) * 4); // 6
             int ballSize = 20;
-            ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize);
+            ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, Properties.Resources.whiteBrick2);
 
             #region Creates blocks for generic level. Need to replace with code that loads levels.
             
@@ -102,6 +120,9 @@ namespace BrickBreaker
                     break;
                 case Keys.Right:
                     rightArrowDown = true;
+                    break;
+                case Keys.Space:
+                    ballMoving = true;
                     break;
                 default:
                     break;
@@ -136,8 +157,17 @@ namespace BrickBreaker
                 paddle.Move("right");
             }
 
+            paddle.updatePosition(this.Width);
+
             // Move ball
-            ball.Move();
+            if (ballMoving)
+            {
+                ball.Move();
+            }
+            else
+            {
+                ball.x = Convert.ToInt16(paddle.x + paddle.width / 2 - ball.size / 2);
+            }
 
             // Check for collision with top and side walls
             ball.WallCollision(this);
@@ -148,8 +178,12 @@ namespace BrickBreaker
                 lives--;
 
                 // Moves the ball back to origin
-                ball.x = ((paddle.x - (ball.size / 2)) + (paddle.width / 2));
-                ball.y = (this.Height - paddle.height) - 85;
+                ball.x = ((Convert.ToInt32(paddle.x) - (ball.size / 2)) + (Convert.ToInt32(paddle.width) / 2));
+                ball.y = (this.Height - Convert.ToInt32(paddle.height)) - 80;
+                float dir = Convert.ToSingle(randGen.Next(0, 360));
+                ball.xSpeed = Convert.ToSingle(Math.Sin(dir / (180 / 3.14)) * 4); // 6
+                ball.ySpeed = Convert.ToSingle(Math.Cos(dir / (180 / 3.14)) * 4); // 6
+                ballMoving = false;
 
                 if (lives == 0)
                 {
@@ -178,6 +212,7 @@ namespace BrickBreaker
                 }
             }
 
+
             //redraw the screen
             Refresh();
         }
@@ -194,6 +229,8 @@ namespace BrickBreaker
             form.Controls.Remove(this);
         }
 
+       
+
         public void GameScreen_Paint(object sender, PaintEventArgs e)
         {
             // Draws paddle
@@ -203,11 +240,11 @@ namespace BrickBreaker
             // Draws blocks
             foreach (Block b in blocks)
             {
-                e.Graphics.FillRectangle(blockBrush, b.x, b.y, b.width, b.height);
+                e.Graphics.DrawImage(brickImage, b.x, b.y, b.width, b.height);
             }
 
             // Draws ball
-            e.Graphics.FillRectangle(ballBrush, ball.x, ball.y, ball.size, ball.size);
+            e.Graphics.DrawImage(ball.image, ball.x, ball.y, ball.size, ball.size);
         }
     }
 }
