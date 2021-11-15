@@ -244,7 +244,7 @@ namespace BrickBreaker
             }
 
             // Draws ball
-            e.Graphics.DrawImage(ball.image, ball.x, ball.y, ball.size, ball.size);
+            e.Graphics.FillRectangle(new SolidBrush(Color.White), ball.x, ball.y, ball.size, ball.size);
         }
     }
 }
