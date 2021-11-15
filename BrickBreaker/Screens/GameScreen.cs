@@ -24,10 +24,12 @@ namespace BrickBreaker
 
         // Game values
         int lives;
+        int powerupCounter;
 
         // Paddle and Ball objects
         Paddle paddle;
         Ball ball;
+        PowerUp powerUp;
 
         // list of all blocks for current level
         List<Block> blocks = new List<Block>();
@@ -64,6 +66,7 @@ namespace BrickBreaker
         {
             //set life counter
             lives = 3;
+            powerupCounter = 0;
 
             // MAKE SURE THE BALL FREEZES IN PLACE AND DIES
             ballMoving = false;
@@ -202,6 +205,8 @@ namespace BrickBreaker
                 {
                     blocks.Remove(b);
 
+                    PowerUpMethod();
+
                     if (blocks.Count == 0)
                     {
                         gameTimer.Enabled = false;
@@ -246,5 +251,68 @@ namespace BrickBreaker
             // Draws ball
             e.Graphics.FillRectangle(new SolidBrush(Color.White), ball.x, ball.y, ball.size, ball.size);
         }
+
+        public void PowerUpMethod()
+        {
+            powerupCounter++;
+
+            if (powerupCounter == 5)
+            {               
+                Random rand = new Random();
+                int powerUp = rand.Next(1, 6);
+
+                if (powerUp == 1)
+                {
+                    InstaBreak();
+                    powerupCounter = 0;
+                }
+                if (powerUp == 2)
+                {
+                    SpeedIncrease();
+                    powerupCounter = 0;
+                }
+                if (powerUp == 3)
+                {
+                    IncreasePaddleSize();
+                    powerupCounter = 0;
+                }
+                if (powerUp == 4)
+                {
+                    Gun();
+                    powerupCounter = 0;
+                }
+                else
+                {
+                    DaBabyLaunch();
+                    powerupCounter = 0;
+                }
+            }
+        }
+
+        public void InstaBreak()
+        {
+
+        }
+        public void SpeedIncrease()
+        {
+            for (int i = 0; i < 15; i++)
+            {
+                ball.xSpeed = 10;
+            }
+            ball.xSpeed = 6;
+        }
+        public void IncreasePaddleSize()
+        {
+
+        }
+        public void Gun()
+        {
+
+        }
+        public void DaBabyLaunch()
+        {
+
+        }
     }
 }
+
