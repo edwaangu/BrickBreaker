@@ -6,13 +6,13 @@ namespace BrickBreaker
 {
     public class Ball
     {
-        public int x, y, xSpeed, ySpeed, size;
+        public float x, y, xSpeed, ySpeed, size;
         public Image image;
         public Color colour;
 
         public static Random rand = new Random();
 
-        public Ball(int _x, int _y, int _xSpeed, int _ySpeed, int _ballSize, Image _image)
+        public Ball(float _x, float _y, float _xSpeed, float _ySpeed, int _ballSize, Image _image)
         {
             x = _x;
             y = _y;
@@ -31,7 +31,7 @@ namespace BrickBreaker
         public bool BlockCollision(Block b)
         {
             Rectangle blockRec = new Rectangle(b.x, b.y, b.width, b.height);
-            Rectangle ballRec = new Rectangle(x, y, size, size);
+            Rectangle ballRec = new Rectangle(Convert.ToInt16(x), Convert.ToInt16(y), Convert.ToInt16(size), Convert.ToInt16(size));
 
             if (ballRec.IntersectsWith(blockRec))
             {
@@ -65,7 +65,7 @@ namespace BrickBreaker
 
         public void PaddleCollision(Paddle p)
         {
-            Rectangle ballRec = new Rectangle(x, y, size, size);
+            Rectangle ballRec = new Rectangle(Convert.ToInt16(x), Convert.ToInt16(y), Convert.ToInt16(size), Convert.ToInt16(size));
             Rectangle paddleRec = new Rectangle(Convert.ToInt16(p.x), Convert.ToInt16(p.y), Convert.ToInt16(p.width), Convert.ToInt16(p.height));
 
             if (ballRec.IntersectsWith(paddleRec))
@@ -86,11 +86,13 @@ namespace BrickBreaker
                     {
                         y = Convert.ToInt16(p.y - size);
                         ySpeed = -Math.Abs(ySpeed);
+                        xSpeed += p.xs / 5;
                     }
                     else
                     {
                         y = Convert.ToInt16(p.y + p.height);
                         ySpeed = Math.Abs(ySpeed);
+                        xSpeed += p.xs / 5;
                     }
                 }
             }
