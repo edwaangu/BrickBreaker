@@ -12,7 +12,7 @@ namespace BrickBreaker
         public Color colour;
         bool playingSound = false;
         bool didIntersect = false;
-        string currentBlockCol = "none";
+        public string currentBlockCol = "none";
         Rectangle futureRectCol;
 
         public static Random rand = new Random();

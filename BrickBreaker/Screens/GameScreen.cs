@@ -73,7 +73,7 @@ namespace BrickBreaker
         {
             blocks.Clear();
 
-            XmlReader reader = XmlReader.Create("XML.xml");
+            XmlReader reader = XmlReader.Create("Resources/XML.xml");
 
             int thelevel = -1;
             while (reader.Read())
@@ -252,6 +252,7 @@ namespace BrickBreaker
                 {
                     startDirection = 270;
                 }
+                ball.currentBlockCol = "none";
             }
 
             // Check for collision with top and side walls
