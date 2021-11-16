@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace BrickBreaker
 {
@@ -10,6 +11,9 @@ namespace BrickBreaker
         public Image image;
         public Color colour;
         bool playingSound = false;
+        bool didIntersect = false;
+        string currentBlockCol = "none";
+        Rectangle futureRectCol;
 
         public static Random rand = new Random();
 
@@ -27,41 +31,71 @@ namespace BrickBreaker
         {
             x = x + xSpeed;
             y = y + ySpeed;
+
+
+            if (currentBlockCol != "none")
+            {
+                if (currentBlockCol == "fromLeft")
+                {
+                    xSpeed = -Math.Abs(xSpeed);
+                    x = Convert.ToInt16(futureRectCol.X - size - 2);
+                }
+                if (currentBlockCol == "fromRight")
+                {
+                    xSpeed = Math.Abs(xSpeed);
+                    x = Convert.ToInt16(futureRectCol.X + futureRectCol.Width + 2);
+                }
+                if (currentBlockCol == "fromUp")
+                {
+                    ySpeed = -Math.Abs(ySpeed);
+                    y = Convert.ToInt16(futureRectCol.Y - size - 2);
+                }
+                if (currentBlockCol == "fromDown")
+                {
+                    ySpeed = Math.Abs(ySpeed);
+                    y = Convert.ToInt16(futureRectCol.Y + futureRectCol.Height + 2);
+                }
+                currentBlockCol = "none";
+                didIntersect = true;
+            }
+        }
+
+        public string Collision(Rectangle r, Rectangle b)
+        {
+            if(r.IntersectsWith(new Rectangle(b.X, b.Y + b.Height - 5, b.Width, 5)))
+            {
+                return "fromDown";
+            }
+            else if (r.IntersectsWith(new Rectangle(b.X, b.Y, b.Width, 5)))
+            {
+                return "fromUp";
+            }
+            else if (r.IntersectsWith(new Rectangle(b.X, b.Y, 5, b.Height)))
+            {
+                return "fromLeft";
+            }
+            else if (r.IntersectsWith(new Rectangle(b.X + b.Width - 5, b.Y, 5, b.Height)))
+            {
+                return "fromRight";
+            }
+            return "none";
         }
 
         public bool BlockCollision(Block b)
         {
+            didIntersect = false;
             Rectangle blockRec = new Rectangle(b.x, b.y, b.width, b.height);
             Rectangle ballRec = new Rectangle(Convert.ToInt16(x), Convert.ToInt16(y), Convert.ToInt16(size), Convert.ToInt16(size));
+            Rectangle futureBallRec = new Rectangle(Convert.ToInt16(x + xSpeed), Convert.ToInt16(y + ySpeed), Convert.ToInt16(size), Convert.ToInt16(size));
 
-            if (ballRec.IntersectsWith(blockRec))
+
+            if(Collision(futureBallRec, blockRec) != "none")
             {
-                if (x > b.x - size - xSpeed && x < b.x + (b.width / 4) - xSpeed && y > b.y - size + 5 && y < b.y + b.height - 5)
-                {
-                    xSpeed = -Math.Abs(xSpeed);
-                    x = Convert.ToInt16(b.x - size - 2);
-                }
-                else if (x < b.x + b.width - xSpeed && x > b.x - size - xSpeed + b.width - (b.width / 4) && y > b.y - size + 5 && y < b.y + b.height - 5)
-                {
-                    xSpeed = Math.Abs(xSpeed);
-                    x = Convert.ToInt16(b.x + b.width + 2);
-                }
-                else if (x > b.x - size + 5 && x < b.x + b.width - 5)
-                {
-                    if (y > b.y - size && y < b.y - size + (b.height / 2))
-                    {
-                        y = Convert.ToInt16(b.y - size);
-                        ySpeed = -Math.Abs(ySpeed);
-                    }
-                    else
-                    {
-                        y = Convert.ToInt16(b.y + b.height);
-                        ySpeed = Math.Abs(ySpeed);
-                    }
-                }
+                currentBlockCol = Collision(futureBallRec, blockRec);
+                futureRectCol = new Rectangle(Convert.ToInt16(x), Convert.ToInt16(y), Convert.ToInt16(size), Convert.ToInt16(size));
             }
 
-            return blockRec.IntersectsWith(ballRec);
+            return futureBallRec.IntersectsWith(blockRec);
         }
 
         public void PaddleCollision(Paddle p)

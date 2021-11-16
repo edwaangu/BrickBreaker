@@ -27,6 +27,9 @@ namespace BrickBreaker
         int lives;
         int level;
         int powerupCounter;
+        float startDirection = 180;
+        bool directionLeftKey = false;
+        bool directionRightKey = false;
 
         // Paddle and Ball objects
         Paddle paddle;
@@ -140,11 +143,9 @@ namespace BrickBreaker
             float ballY = this.Height - Convert.ToInt32(paddle.height) - 80;
 
             // Creates a new ball
-            float dir = Convert.ToSingle(randGen.Next(0, 360));
-            float xSpeed = Convert.ToSingle(Math.Sin(dir / (180 / 3.14)) * 4); // 6
-            float ySpeed = Convert.ToSingle(Math.Cos(dir / (180 / 3.14)) * 4); // 6
+            startDirection = 0; 
             int ballSize = 20;
-            ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, Properties.Resources.whiteBrick2);
+            ball = new Ball(ballX, ballY, 0, 0, ballSize, Properties.Resources.whiteBrick2);
 
             // Setup level
             level = 0;
@@ -166,7 +167,18 @@ namespace BrickBreaker
                     rightArrowDown = true;
                     break;
                 case Keys.Space:
+                    if (ballMoving == false)
+                    {
+                        ball.xSpeed = Convert.ToSingle(Math.Sin(startDirection / (180 / 3.14)) * 6);
+                        ball.ySpeed = Convert.ToSingle(Math.Cos(startDirection / (180 / 3.14)) * 6);
+                    }
                     ballMoving = true;
+                    break;
+                case Keys.A:
+                    directionLeftKey = true;
+                    break;
+                case Keys.D:
+                    directionRightKey = true;
                     break;
                 default:
                     break;
@@ -183,6 +195,12 @@ namespace BrickBreaker
                     break;
                 case Keys.Right:
                     rightArrowDown = false;
+                    break;
+                case Keys.A:
+                    directionLeftKey = false;
+                    break;
+                case Keys.D:
+                    directionRightKey = false;
                     break;
                 default:
                     break;
@@ -211,6 +229,24 @@ namespace BrickBreaker
             else
             {
                 ball.x = Convert.ToInt16(paddle.x + paddle.width / 2 - ball.size / 2);
+
+                // Change the direction at start as necessary
+                if (directionLeftKey)
+                {
+                    startDirection += 2;
+                }
+                if (directionRightKey)
+                {
+                    startDirection -= 2;
+                }
+                if(startDirection < 90)
+                {
+                    startDirection = 90;
+                }
+                else if(startDirection > 270)
+                {
+                    startDirection = 270;
+                }
             }
 
             // Check for collision with top and side walls
@@ -224,9 +260,8 @@ namespace BrickBreaker
                 // Moves the ball back to origin
                 ball.x = ((Convert.ToInt32(paddle.x) - (ball.size / 2)) + (Convert.ToInt32(paddle.width) / 2));
                 ball.y = (this.Height - Convert.ToInt32(paddle.height)) - 80;
-                float dir = Convert.ToSingle(randGen.Next(0, 360));
-                ball.xSpeed = Convert.ToSingle(Math.Sin(dir / (180 / 3.14)) * 4); // 6
-                ball.ySpeed = Convert.ToSingle(Math.Cos(dir / (180 / 3.14)) * 4); // 6
+                ball.xSpeed = Convert.ToSingle(Math.Sin(startDirection / (180 / 3.14)) * 6);
+                ball.ySpeed = Convert.ToSingle(Math.Cos(startDirection / (180 / 3.14)) * 6);
                 ballMoving = false;
 
                 if (lives == 0)
@@ -244,13 +279,17 @@ namespace BrickBreaker
             {
                 if (ball.BlockCollision(b))
                 {
-                    blocks.Remove(b);
-
-                    PowerUpMethod();
-
-                    if (blocks.Count == 0)
+                    b.hp--;
+                    if (b.hp <= 0)
                     {
-                        NewLevel();
+                        blocks.Remove(b);
+
+                        PowerUpMethod();
+
+                        if (blocks.Count == 0)
+                        {
+                            NewLevel();
+                        }
                     }
 
                     break;
@@ -286,10 +325,20 @@ namespace BrickBreaker
             foreach (Block b in blocks)
             {
                 e.Graphics.DrawImage(brickImage, b.x, b.y, b.width, b.height);
+                e.Graphics.DrawString(b.hp.ToString(), DefaultFont, new SolidBrush(Color.Black), b.x + b.width / 2, b.y + b.height / 2);
             }
 
             // Draws ball
             e.Graphics.FillRectangle(new SolidBrush(Color.White), ball.x, ball.y, ball.size, ball.size);
+
+            if (!ballMoving)
+            {
+                for (int i = 0; i < 5; i++) {
+                    float xS = Convert.ToSingle(Math.Sin(startDirection / (180 / 3.14)) * 4);
+                    float yS = Convert.ToSingle(Math.Cos(startDirection / (180 / 3.14)) * 4);
+                    e.Graphics.FillEllipse(new SolidBrush(Color.Gray), ball.x + ((10 - i * 2) / 2) + xS * ((i + 1) * 5), ball.y + ((10 - i * 2) / 2) + yS * ((i + 1) * 5), 10 - i * 2, 10 - i * 2);
+                }
+            }
         }
 
         public void PowerUpMethod()
