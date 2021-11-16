@@ -53,6 +53,8 @@ namespace BrickBreaker
 
         #endregion
 
+        int playerScore;
+
 
 
         public GameScreen()
@@ -71,7 +73,7 @@ namespace BrickBreaker
         {
             blocks.Clear();
 
-            XmlReader reader = XmlReader.Create("XML.xml");
+            XmlReader reader = XmlReader.Create("Resources/XML.xml");
 
             int thelevel = -1;
             while (reader.Read())
@@ -119,6 +121,10 @@ namespace BrickBreaker
 
         public void OnStart()
         {
+            // set starting score to 0
+            playerScore = 0;
+              
+            
             //set life counter
             lives = 3;
             powerupCounter = 0;
@@ -246,6 +252,7 @@ namespace BrickBreaker
                 {
                     startDirection = 270;
                 }
+                ball.currentBlockCol = "none";
             }
 
             // Check for collision with top and side walls
@@ -255,6 +262,9 @@ namespace BrickBreaker
             if (ball.BottomCollision(this))
             {
                 lives--;
+               
+                playerScore--;
+                scoreLabel.Text = $"Your Score:{playerScore}";
 
                 // Moves the ball back to origin
                 ball.x = ((Convert.ToInt32(paddle.x) - (ball.size / 2)) + (Convert.ToInt32(paddle.width) / 2));
@@ -278,6 +288,8 @@ namespace BrickBreaker
             {
                 if (ball.BlockCollision(b))
                 {
+                    playerScore++;
+                    scoreLabel.Text = $"Your Score:{playerScore}";
                     b.hp--;
                     if (b.hp <= 0)
                     {
