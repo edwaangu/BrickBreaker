@@ -182,6 +182,9 @@ namespace BrickBreaker
             if (ball.BottomCollision(this))
             {
                 lives--;
+               
+                playerScore--;
+                scoreLabel.Text = $"Your Score:{playerScore}";
 
                 // Moves the ball back to origin
                 ball.x = ((Convert.ToInt32(paddle.x) - (ball.size / 2)) + (Convert.ToInt32(paddle.width) / 2));

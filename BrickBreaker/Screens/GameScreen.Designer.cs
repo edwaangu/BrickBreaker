@@ -44,7 +44,7 @@
             this.scoreLabel.AutoSize = true;
             this.scoreLabel.Font = new System.Drawing.Font("MV Boli", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.scoreLabel.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.scoreLabel.Location = new System.Drawing.Point(585, 61);
+            this.scoreLabel.Location = new System.Drawing.Point(738, 0);
             this.scoreLabel.Name = "scoreLabel";
             this.scoreLabel.Size = new System.Drawing.Size(81, 17);
             this.scoreLabel.TabIndex = 0;
