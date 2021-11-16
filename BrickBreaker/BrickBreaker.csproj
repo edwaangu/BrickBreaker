@@ -134,9 +134,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BALL.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\black-wall-texture-19.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +172,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\BALL.png" />
+    <None Include="Resources\biggaGlock.png" />
+    <None Include="Resources\breakpowerup.png" />
+    <None Include="Resources\dababylaunchpng.png" />
+    <None Include="Resources\DABABY-PADDLe.png" />
+    <None Include="Resources\gunpowerup.png" />
+    <None Include="Resources\increasesizepowerup.png" />
+    <None Include="Resources\speedpowerup.png" />
     <Content Include="Resources\XML.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

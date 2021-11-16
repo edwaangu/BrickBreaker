@@ -34,7 +34,7 @@ namespace BrickBreaker
         // Paddle and Ball objects
         Paddle paddle;
         Ball ball;
-        PowerUp powerUp;
+        List<PowerUp> powerups = new List<PowerUp>();
 
         // list of all blocks for current level
         List<Block> blocks = new List<Block>();
@@ -65,8 +65,8 @@ namespace BrickBreaker
 
         private void GameScreen_Load(object sender, EventArgs e)
         {
-            SoundPlayer daPlayer = new SoundPlayer(Properties.Resources.dababy2);
-            daPlayer.Play();
+            //SoundPlayer daPlayer = new SoundPlayer(Properties.Resources.dababy2);
+            //daPlayer.Play();
         }
 
         void SetupLevel(int _level)
@@ -395,11 +395,8 @@ namespace BrickBreaker
         }
         public void SpeedIncrease()
         {
-            for (int i = 0; i < 15; i++)
-            {
-                ball.xSpeed = 10;
-            }
-            ball.xSpeed = 6;
+            ball.xSpeed *= 1.5f;
+            ball.ySpeed *= 1.5f;
         }
         public void IncreasePaddleSize()
         {
