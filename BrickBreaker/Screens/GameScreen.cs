@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Media;
+using System.Xml;
 
 namespace BrickBreaker
 {
@@ -24,10 +25,16 @@ namespace BrickBreaker
 
         // Game values
         int lives;
+        int level;
+        int powerupCounter;
+        float startDirection = 180;
+        bool directionLeftKey = false;
+        bool directionRightKey = false;
 
         // Paddle and Ball objects
         Paddle paddle;
         Ball ball;
+        PowerUp powerUp;
 
         // list of all blocks for current level
         List<Block> blocks = new List<Block>();
@@ -42,7 +49,6 @@ namespace BrickBreaker
 
         // Should ball move
         bool ballMoving = false;
-
         Image brickImage = Properties.Resources.whiteBrick2;
 
         #endregion
@@ -62,6 +68,57 @@ namespace BrickBreaker
             SoundPlayer daPlayer = new SoundPlayer(Properties.Resources.dababy2);
             daPlayer.Play();
         }
+
+        void SetupLevel(int _level)
+        {
+            blocks.Clear();
+
+            XmlReader reader = XmlReader.Create("XML.xml");
+
+            int thelevel = -1;
+            while (reader.Read())
+            {
+                if(reader.NodeType == XmlNodeType.Element && reader.Name == "Level")
+                {
+                    thelevel++;
+                }
+                if (thelevel == _level)
+                {
+                    if (reader.NodeType == XmlNodeType.Text)
+                    {
+                        int __x = Convert.ToInt16(reader.ReadString());
+                        reader.ReadToFollowing("y");
+                        int __y = Convert.ToInt16(reader.ReadString());
+                        reader.ReadToFollowing("type");
+                        int __type = Convert.ToInt16(reader.ReadString());
+
+                        blocks.Add(new Block(__x, __y, __type, Color.White));
+                    }
+                }
+            }
+
+            reader.Close();
+        }
+
+        void NewLevel()
+        {
+            level++;
+            SetupLevel(level);
+            if(blocks.Count == 0)
+            {
+                gameTimer.Enabled = false;
+                OnEnd();
+                return;
+            }
+            // Moves the ball back to origin
+            ball.x = ((Convert.ToInt32(paddle.x) - (ball.size / 2)) + (Convert.ToInt32(paddle.width) / 2));
+            ball.y = (this.Height - Convert.ToInt32(paddle.height)) - 80;
+            float dir = Convert.ToSingle(randGen.Next(0, 360));
+            ball.xSpeed = Convert.ToSingle(Math.Sin(dir / (180 / 3.14)) * 4); // 6
+            ball.ySpeed = Convert.ToSingle(Math.Cos(dir / (180 / 3.14)) * 4); // 6
+            ballMoving = false;
+        }
+
         public void OnStart()
         {
             // set starting score to 0
@@ -70,6 +127,7 @@ namespace BrickBreaker
             
             //set life counter
             lives = 3;
+            powerupCounter = 0;
 
             // MAKE SURE THE BALL FREEZES IN PLACE AND DIES
             ballMoving = false;
@@ -90,27 +148,13 @@ namespace BrickBreaker
             float ballY = this.Height - Convert.ToInt32(paddle.height) - 80;
 
             // Creates a new ball
-            float dir = Convert.ToSingle(randGen.Next(0, 360));
-            float xSpeed = Convert.ToSingle(Math.Sin(dir / (180 / 3.14)) * 4); // 6
-            float ySpeed = Convert.ToSingle(Math.Cos(dir / (180 / 3.14)) * 4); // 6
+            startDirection = 0; 
             int ballSize = 20;
-            ball = new Ball(ballX, ballY, xSpeed, ySpeed, ballSize, Properties.Resources.whiteBrick2);
+            ball = new Ball(ballX, ballY, 0, 0, ballSize, Properties.Resources.whiteBrick2);
 
-            #region Creates blocks for generic level. Need to replace with code that loads levels.
-            
-            //TODO - replace all the code in this region eventually with code that loads levels from xml files
-            
-            blocks.Clear();
-            int x = 10;
-
-            while (blocks.Count < 12)
-            {
-                x += 57;
-                Block b1 = new Block(x, 10, 1, Color.White);
-                blocks.Add(b1);
-            }
-
-            #endregion
+            // Setup level
+            level = 0;
+            SetupLevel(level);
 
             // start the game engine loop
             gameTimer.Enabled = true;
@@ -128,7 +172,18 @@ namespace BrickBreaker
                     rightArrowDown = true;
                     break;
                 case Keys.Space:
+                    if (ballMoving == false)
+                    {
+                        ball.xSpeed = Convert.ToSingle(Math.Sin(startDirection / (180 / 3.14)) * 6);
+                        ball.ySpeed = Convert.ToSingle(Math.Cos(startDirection / (180 / 3.14)) * 6);
+                    }
                     ballMoving = true;
+                    break;
+                case Keys.A:
+                    directionLeftKey = true;
+                    break;
+                case Keys.D:
+                    directionRightKey = true;
                     break;
                 default:
                     break;
@@ -145,6 +200,12 @@ namespace BrickBreaker
                     break;
                 case Keys.Right:
                     rightArrowDown = false;
+                    break;
+                case Keys.A:
+                    directionLeftKey = false;
+                    break;
+                case Keys.D:
+                    directionRightKey = false;
                     break;
                 default:
                     break;
@@ -173,6 +234,24 @@ namespace BrickBreaker
             else
             {
                 ball.x = Convert.ToInt16(paddle.x + paddle.width / 2 - ball.size / 2);
+
+                // Change the direction at start as necessary
+                if (directionLeftKey)
+                {
+                    startDirection += 2;
+                }
+                if (directionRightKey)
+                {
+                    startDirection -= 2;
+                }
+                if(startDirection < 90)
+                {
+                    startDirection = 90;
+                }
+                else if(startDirection > 270)
+                {
+                    startDirection = 270;
+                }
             }
 
             // Check for collision with top and side walls
@@ -189,9 +268,8 @@ namespace BrickBreaker
                 // Moves the ball back to origin
                 ball.x = ((Convert.ToInt32(paddle.x) - (ball.size / 2)) + (Convert.ToInt32(paddle.width) / 2));
                 ball.y = (this.Height - Convert.ToInt32(paddle.height)) - 80;
-                float dir = Convert.ToSingle(randGen.Next(0, 360));
-                ball.xSpeed = Convert.ToSingle(Math.Sin(dir / (180 / 3.14)) * 4); // 6
-                ball.ySpeed = Convert.ToSingle(Math.Cos(dir / (180 / 3.14)) * 4); // 6
+                ball.xSpeed = Convert.ToSingle(Math.Sin(startDirection / (180 / 3.14)) * 6);
+                ball.ySpeed = Convert.ToSingle(Math.Cos(startDirection / (180 / 3.14)) * 6);
                 ballMoving = false;
 
                 if (lives == 0)
@@ -209,15 +287,19 @@ namespace BrickBreaker
             {
                 if (ball.BlockCollision(b))
                 {
-                    blocks.Remove(b);
-                   
                     playerScore++;
                     scoreLabel.Text = $"Your Score:{playerScore}";
-
-                    if (blocks.Count == 0)
+                    b.hp--;
+                    if (b.hp <= 0)
                     {
-                        gameTimer.Enabled = false;
-                        OnEnd();
+                        blocks.Remove(b);
+
+                        PowerUpMethod();
+
+                        if (blocks.Count == 0)
+                        {
+                            NewLevel();
+                        }
                     }
 
                     break;
@@ -253,10 +335,83 @@ namespace BrickBreaker
             foreach (Block b in blocks)
             {
                 e.Graphics.DrawImage(brickImage, b.x, b.y, b.width, b.height);
+                e.Graphics.DrawString(b.hp.ToString(), DefaultFont, new SolidBrush(Color.Black), b.x + b.width / 2, b.y + b.height / 2);
             }
 
             // Draws ball
-            e.Graphics.DrawImage(ball.image, ball.x, ball.y, ball.size, ball.size);
+            e.Graphics.FillRectangle(new SolidBrush(Color.White), ball.x, ball.y, ball.size, ball.size);
+
+            if (!ballMoving)
+            {
+                for (int i = 0; i < 5; i++) {
+                    float xS = Convert.ToSingle(Math.Sin(startDirection / (180 / 3.14)) * 4);
+                    float yS = Convert.ToSingle(Math.Cos(startDirection / (180 / 3.14)) * 4);
+                    e.Graphics.FillEllipse(new SolidBrush(Color.Gray), ball.x + ((10 - i * 2) / 2) + xS * ((i + 1) * 5), ball.y + ((10 - i * 2) / 2) + yS * ((i + 1) * 5), 10 - i * 2, 10 - i * 2);
+                }
+            }
+        }
+
+        public void PowerUpMethod()
+        {
+            powerupCounter++;
+
+            if (powerupCounter == 5)
+            {               
+                Random rand = new Random();
+                int powerUp = rand.Next(1, 6);
+
+                if (powerUp == 1)
+                {
+                    InstaBreak();
+                    powerupCounter = 0;
+                }
+                if (powerUp == 2)
+                {
+                    SpeedIncrease();
+                    powerupCounter = 0;
+                }
+                if (powerUp == 3)
+                {
+                    IncreasePaddleSize();
+                    powerupCounter = 0;
+                }
+                if (powerUp == 4)
+                {
+                    Gun();
+                    powerupCounter = 0;
+                }
+                else
+                {
+                    DaBabyLaunch();
+                    powerupCounter = 0;
+                }
+            }
+        }
+
+        public void InstaBreak()
+        {
+
+        }
+        public void SpeedIncrease()
+        {
+            for (int i = 0; i < 15; i++)
+            {
+                ball.xSpeed = 10;
+            }
+            ball.xSpeed = 6;
+        }
+        public void IncreasePaddleSize()
+        {
+
+        }
+        public void Gun()
+        {
+
+        }
+        public void DaBabyLaunch()
+        {
+          
         }
     }
 }
+
