@@ -49,7 +49,6 @@ namespace BrickBreaker
 
         // Should ball move
         bool ballMoving = false;
-
         Image brickImage = Properties.Resources.whiteBrick2;
 
         #endregion
@@ -400,7 +399,7 @@ namespace BrickBreaker
         }
         public void DaBabyLaunch()
         {
-
+          
         }
     }
 }
