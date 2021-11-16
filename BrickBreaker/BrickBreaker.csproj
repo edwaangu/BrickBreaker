@@ -160,6 +160,16 @@
     <None Include="Resources\whiteBrick2.jpg" />
     <None Include="Resources\50d.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\[CLEAN] DaBaby - Ball If I Want To.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\levitating.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
