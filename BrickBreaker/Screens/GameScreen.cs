@@ -47,6 +47,8 @@ namespace BrickBreaker
 
         #endregion
 
+        int playerScore;
+
 
 
         public GameScreen()
@@ -62,6 +64,10 @@ namespace BrickBreaker
         }
         public void OnStart()
         {
+            // set starting score to 0
+            playerScore = 0;
+              
+            
             //set life counter
             lives = 3;
 
@@ -201,6 +207,9 @@ namespace BrickBreaker
                 if (ball.BlockCollision(b))
                 {
                     blocks.Remove(b);
+                   
+                    playerScore++;
+                    scoreLabel.Text = $"Your Score:{playerScore}";
 
                     if (blocks.Count == 0)
                     {
