@@ -39479,4 +39479,28 @@
   <data name="_3lives" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\3lives.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="BALL" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BALL.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="biggaGlock" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\biggaGlock.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="breakpowerup" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\breakpowerup.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dababylaunchpng" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\dababylaunchpng.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DABABY_PADDLe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DABABY-PADDLe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gunpowerup" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\gunpowerup.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="increasesizepowerup" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\increasesizepowerup.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="speedpowerup" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\speedpowerup.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

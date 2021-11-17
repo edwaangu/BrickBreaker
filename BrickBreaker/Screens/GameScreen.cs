@@ -1,6 +1,6 @@
 ﻿/*  Created by: Team 2 (Ted, Matt, Bilal, Dylan, and Colbey)
  *  Project: Brick Breaker
- *  Date Started: 11/3/2021 - __/__/2021
+ *  Date Started: 11/3/2021 - 11/17/2021
  */ 
 using System;
 using System.Collections.Generic;
@@ -27,6 +27,7 @@ namespace BrickBreaker
         int lives;
         int level;
         int powerupCounter;
+        
         float startDirection = 180;
         bool directionLeftKey = false;
         bool directionRightKey = false;
@@ -34,7 +35,7 @@ namespace BrickBreaker
         // Paddle and Ball objects
         Paddle paddle;
         Ball ball;
-        PowerUp powerUp;
+        List<PowerUp> powerUps = new List<PowerUp>();
 
         // list of all blocks for current level
         List<Block> blocks = new List<Block>();
@@ -43,6 +44,10 @@ namespace BrickBreaker
         SolidBrush paddleBrush = new SolidBrush(Color.White);
         SolidBrush ballBrush = new SolidBrush(Color.White);
         SolidBrush blockBrush = new SolidBrush(Color.Red);
+        SolidBrush powerUpBrush = new SolidBrush(Color.Green);
+
+        //Tracks powerup
+        bool powerUpSpawned = false;
 
         // Random
         Random randGen = new Random();
@@ -65,8 +70,8 @@ namespace BrickBreaker
 
         private void GameScreen_Load(object sender, EventArgs e)
         {
-            SoundPlayer daPlayer = new SoundPlayer(Properties.Resources.dababy2);
-            daPlayer.Play();
+            //SoundPlayer daPlayer = new SoundPlayer(Properties.Resources.dababy2);
+            //daPlayer.Play();
         }
 
         void SetupLevel(int _level)
@@ -229,7 +234,7 @@ namespace BrickBreaker
 
             // Move ball
             if (ballMoving)
-            {
+            {   
                 ball.Move();
             }
             else
@@ -245,13 +250,13 @@ namespace BrickBreaker
                 {
                     startDirection -= 2;
                 }
-                if(startDirection < 90)
+                if(startDirection < 100)
                 {
-                    startDirection = 90;
+                    startDirection = 100;
                 }
-                else if(startDirection > 270)
+                else if(startDirection > 260)
                 {
-                    startDirection = 270;
+                    startDirection = 260;
                 }
                 ball.currentBlockCol = "none";
             }
@@ -302,9 +307,12 @@ namespace BrickBreaker
                     b.hp--;
                     if (b.hp <= 0)
                     {
+                        if(randGen.Next(0, 5) == 0){
+                            powerUps.Add(new PowerUp(b.x + b.width / 2, b.y + b.height / 2));
+                        }
+                        
                         blocks.Remove(b);
 
-                        PowerUpMethod();
 
                         if (blocks.Count == 0)
                         {
@@ -315,8 +323,20 @@ namespace BrickBreaker
                     break;
                 }
             }
-
-
+            
+            // Powerups
+            for(int i = 0;i < powerUps.Count;i ++){
+                  powerUps[i].Drop();
+                  if(powerUps[i].PaddleCollision(paddle)){
+                        PowerUpMethod(powerUps[i].type);
+                        powerUps.RemoveAt(i);
+                        break;
+                  }
+                  if(powerUps[i].BottomCollision(this)){
+                    powerUps.RemoveAt(i);
+                  }
+            }
+            
             //redraw the screen
             Refresh();
         }
@@ -333,8 +353,6 @@ namespace BrickBreaker
             form.Controls.Remove(this);
         }
 
-       
-
         public void GameScreen_Paint(object sender, PaintEventArgs e)
         {
             // Draws paddle
@@ -346,6 +364,10 @@ namespace BrickBreaker
             {
                 e.Graphics.DrawImage(brickImage, b.x, b.y, b.width, b.height);
                 e.Graphics.DrawString(b.hp.ToString(), DefaultFont, new SolidBrush(Color.Black), b.x + b.width / 2, b.y + b.height / 2);
+            }
+            
+            foreach(PowerUp pwrUp in powerUps){
+                e.Graphics.FillRectangle(powerUpBrush, pwrUp.x, pwrUp.y, pwrUp.size, pwrUp.size);
             }
 
             // Draws ball
@@ -361,40 +383,24 @@ namespace BrickBreaker
             }
         }
 
-        public void PowerUpMethod()
+        public void PowerUpMethod(int _type)
         {
-            powerupCounter++;
-
-            if (powerupCounter == 5)
-            {               
-                Random rand = new Random();
-                int powerUp = rand.Next(1, 6);
-
-                if (powerUp == 1)
-                {
-                    InstaBreak();
-                    powerupCounter = 0;
-                }
-                if (powerUp == 2)
-                {
-                    SpeedIncrease();
-                    powerupCounter = 0;
-                }
-                if (powerUp == 3)
-                {
-                    IncreasePaddleSize();
-                    powerupCounter = 0;
-                }
-                if (powerUp == 4)
-                {
-                    Gun();
-                    powerupCounter = 0;
-                }
-                else
-                {
-                    DaBabyLaunch();
-                    powerupCounter = 0;
-                }
+            switch(_type){
+              case 1:
+                InstaBreak();
+                break;
+              case 2:
+                SpeedIncrease();
+                break;
+              case 3:
+                IncreasePaddleSize();
+                break;
+              case 4:
+                Gun();
+                break;
+              case 5:
+                DaBabyLaunch();
+                break;
             }
         }
 
@@ -404,11 +410,8 @@ namespace BrickBreaker
         }
         public void SpeedIncrease()
         {
-            for (int i = 0; i < 15; i++)
-            {
-                ball.xSpeed = 10;
-            }
-            ball.xSpeed = 6;
+            ball.xSpeed *= 1.5f;
+            ball.ySpeed *= 1.5f;
         }
         public void IncreasePaddleSize()
         {

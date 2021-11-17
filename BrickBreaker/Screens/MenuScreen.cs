@@ -18,8 +18,8 @@ namespace BrickBreaker
         }
         private void MenuScreen_Load(object sender, EventArgs e)
         {
-            SoundPlayer daPlayer = new SoundPlayer(Properties.Resources.levitating);
-            daPlayer.Play();
+            //SoundPlayer daPlayer = new SoundPlayer("Resources/levitating.mp3");
+            //daPlayer.Play();
         }
         private void exitButton_Click(object sender, EventArgs e)
         {
