@@ -456,9 +456,9 @@ namespace BrickBreaker
 
         public void InstaBreak()
         {
-            instabreakTime = 30;
+            instabreakTime = 180;
 
-            while (instabreakTime >= 0)
+            if (instabreakTime >= 0)
             {
                 foreach (Block b in blocks)
                 {
