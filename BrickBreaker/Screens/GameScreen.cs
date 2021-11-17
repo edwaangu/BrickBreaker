@@ -1,6 +1,6 @@
 ﻿/*  Created by: Team 2 (Ted, Matt, Bilal, Dylan, and Colbey)
  *  Project: Brick Breaker
- *  Date Started: 11/3/2021 - __/__/2021
+ *  Date Started: 11/3/2021 - 11/17/2021
  */ 
 using System;
 using System.Collections.Generic;
@@ -298,7 +298,7 @@ namespace BrickBreaker
                     b.hp--;
                     if (b.hp <= 0)
                     {
-                        if(randGen.Next(0, 5) < 6){
+                        if(randGen.Next(0, 5) == 0){
                             powerUps.Add(new PowerUp(b.x + b.width / 2, b.y + b.height / 2));
                         }
                         
