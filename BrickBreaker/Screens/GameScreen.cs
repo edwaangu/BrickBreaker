@@ -313,7 +313,7 @@ namespace BrickBreaker
                     if (b.hp <= 0)
                     {
                         if(randGen.Next(0, 5) == 0){
-                            powerUps.Add(new Powerup(b.x + b.w / 2, b.y + b.h / 2));
+                            powerups.Add(new PowerUp(b.x + b.w / 2, b.y + b.h / 2));
                         }
                         
                         blocks.Remove(b);
@@ -331,14 +331,14 @@ namespace BrickBreaker
             
             // Powerups
             
-            foreach(int i = powerUps.Count-1;i >= 0;i --){
-              powerUps[i].Drop();
-              if(powerUps[i].PaddleCollision(paddle)){
-                PowerUpMethod(powerUps[i].type);
-                powerUps.RemoveAt(i);
+            for(int i = powerups.Count-1;i >= 0;i --){
+              powerups[i].Drop();
+              if(powerups[i].PaddleCollision(paddle)){
+                PowerUpMethod(powerups[i].type);
+                powerups.RemoveAt(i);
               }
-              if(powerUps[i].BottomCollision(this)){
-                powerUps.RemoveAt(i);
+              if(powerups[i].BottomCollision(this)){
+                powerups.RemoveAt(i);
               }
             }
             
