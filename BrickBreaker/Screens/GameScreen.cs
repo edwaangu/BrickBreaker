@@ -176,7 +176,7 @@ namespace BrickBreaker
             ball = new Ball(ballX, ballY, 0, 0, ballSize, Properties.Resources.whiteBrick2);
 
             // Setup level
-            level = 0;
+            level = 1;
             SetupLevel(level);
 
             // start the game engine loop
@@ -321,7 +321,7 @@ namespace BrickBreaker
                     b.hp--;
                     if (b.hp <= 0)
                     {
-                        if(randGen.Next(0, 5) <= 6){
+                        if(randGen.Next(0, 5) == 0){
                             powerUps.Add(new PowerUp(b.x + b.width / 2, b.y + b.height / 2));
                         }
                         
