@@ -61,15 +61,6 @@ namespace BrickBreaker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
-        /// </summary>
-        public static System.IO.UnmanagedMemoryStream Ah {
-            get {
-                return ResourceManager.GetStream("Ah", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap black_wall_texture_19 {
@@ -82,9 +73,9 @@ namespace BrickBreaker.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        public static System.IO.UnmanagedMemoryStream dababy2 {
+        public static System.IO.UnmanagedMemoryStream COLLISION {
             get {
-                return ResourceManager.GetStream("dababy2", resourceCulture);
+                return ResourceManager.GetStream("COLLISION", resourceCulture);
             }
         }
         
@@ -111,18 +102,27 @@ namespace BrickBreaker.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        public static System.IO.UnmanagedMemoryStream levitating {
+        public static System.IO.UnmanagedMemoryStream GAMESCREEN {
             get {
-                return ResourceManager.GetStream("levitating", resourceCulture);
+                return ResourceManager.GetStream("GAMESCREEN", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        public static System.IO.UnmanagedMemoryStream under {
+        public static System.IO.UnmanagedMemoryStream MENUSCREEN {
             get {
-                return ResourceManager.GetStream("under", resourceCulture);
+                return ResourceManager.GetStream("MENUSCREEN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream POWER_UP {
+            get {
+                return ResourceManager.GetStream("POWER UP", resourceCulture);
             }
         }
         
