@@ -35,7 +35,7 @@ namespace BrickBreaker
         // Paddle and Ball objects
         Paddle paddle;
         Ball ball;
-        List<PowerUp> powerups = new List<PowerUp>();
+        List<PowerUp> powerUps = new List<PowerUp>();
 
         // list of all blocks for current level
         List<Block> blocks = new List<Block>();
@@ -48,7 +48,6 @@ namespace BrickBreaker
 
         //Tracks powerup
         bool powerUpSpawned = false;
-        List<PowerUp> powerUp = new List<PowerUp>();
 
         // Random
         Random randGen = new Random();
@@ -152,13 +151,6 @@ namespace BrickBreaker
             // setup starting ball values
             float ballX = this.Width / 2 - 10;
             float ballY = this.Height - Convert.ToInt32(paddle.height) - 80;
-
-            // set powerup values
-            int powerUpX = this.Width / 2;
-            int powerUpY = 40;
-            int powerUpSpeed = 5;
-            int powerUpSize = 20;
-            powerUp = new PowerUp(powerUpX, powerUpY, powerUpSpeed, powerUpSize);
 
             // Creates a new ball
             startDirection = 0; 
@@ -268,12 +260,6 @@ namespace BrickBreaker
                 ball.currentBlockCol = "none";
             }
 
-            // Powerup Moving
-            if(powerUpSpawned == true)
-            {
-                powerUp.Drop();
-            }
-
             // Check for collision with top and side walls
             ball.WallCollision(this);
 
@@ -312,8 +298,8 @@ namespace BrickBreaker
                     b.hp--;
                     if (b.hp <= 0)
                     {
-                        if(randGen.Next(0, 5) == 0){
-                            powerUps.Add(new Powerup(b.x + b.w / 2, b.y + b.h / 2));
+                        if(randGen.Next(0, 5) < 6){
+                            powerUps.Add(new PowerUp(b.x + b.width / 2, b.y + b.height / 2));
                         }
                         
                         blocks.Remove(b);
@@ -330,16 +316,16 @@ namespace BrickBreaker
             }
             
             // Powerups
-            
-            foreach(int i = powerUps.Count-1;i >= 0;i --){
-              powerUps[i].Drop();
-              if(powerUps[i].PaddleCollision(paddle)){
-                PowerUpMethod(powerUps[i].type);
-                powerUps.RemoveAt(i);
-              }
-              if(powerUps[i].BottomCollision(this)){
-                powerUps.RemoveAt(i);
-              }
+            for(int i = 0;i < powerUps.Count;i ++){
+                  powerUps[i].Drop();
+                  if(powerUps[i].PaddleCollision(paddle)){
+                        PowerUpMethod(powerUps[i].type);
+                        powerUps.RemoveAt(i);
+                        break;
+                  }
+                  if(powerUps[i].BottomCollision(this)){
+                    powerUps.RemoveAt(i);
+                  }
             }
             
             //redraw the screen
@@ -370,18 +356,8 @@ namespace BrickBreaker
                 e.Graphics.DrawImage(brickImage, b.x, b.y, b.width, b.height);
                 e.Graphics.DrawString(b.hp.ToString(), DefaultFont, new SolidBrush(Color.Black), b.x + b.width / 2, b.y + b.height / 2);
             }
-
-            // Draws powerup
-            if (powerupCounter >= 5)
-            {
-                powerUpSpawned = true;
-                if (powerUpSpawned == true)
-                {
-                    e.Graphics.FillRectangle(powerUpBrush, powerUp.x, powerUp.y, powerUp.size, powerUp.size);
-                }
-            }
             
-            foreach(PowerUp pwrUp in powerups){
+            foreach(PowerUp pwrUp in powerUps){
                 e.Graphics.FillRectangle(powerUpBrush, pwrUp.x, pwrUp.y, pwrUp.size, pwrUp.size);
             }
 
