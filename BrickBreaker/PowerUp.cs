@@ -19,10 +19,35 @@ namespace BrickBreaker
             y = _y;
             type = randGen.Next(1, 6);
         }
-        public void Spawn()
+        public void Drop()
         {
             y += Convert.ToInt16(ySpeed);
             ySpeed += 0.1f;
+        }
+
+        public bool PaddleCollision(Paddle p)
+        {
+            Boolean didCollide = false;
+
+            Rectangle powerUpRec = new Rectangle(x, y, size, size);
+            Rectangle paddleRec = new Rectangle(Convert.ToInt16(p.x), Convert.ToInt16(p.y), Convert.ToInt16(p.width), Convert.ToInt16(p.height));
+
+            if (powerUpRec.IntersectsWith(paddleRec))
+            {
+                didCollide = true;
+            }
+            return didCollide;
+        }
+        public bool BottomCollision(GameScreen UC)
+        {
+            Boolean didCollide = false;
+
+            if (y >= UC.Height)
+            {
+                didCollide = true;
+            }
+
+            return didCollide;
         }
     }
 }

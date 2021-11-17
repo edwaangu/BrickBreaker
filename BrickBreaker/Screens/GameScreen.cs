@@ -27,6 +27,7 @@ namespace BrickBreaker
         int lives;
         int level;
         int powerupCounter;
+        
         float startDirection = 180;
         bool directionLeftKey = false;
         bool directionRightKey = false;
@@ -43,6 +44,11 @@ namespace BrickBreaker
         SolidBrush paddleBrush = new SolidBrush(Color.White);
         SolidBrush ballBrush = new SolidBrush(Color.White);
         SolidBrush blockBrush = new SolidBrush(Color.Red);
+        SolidBrush powerUpBrush = new SolidBrush(Color.Green);
+
+        //Tracks powerup
+        bool powerUpSpawned = false;
+        List<PowerUp> powerUp = new List<PowerUp>();
 
         // Random
         Random randGen = new Random();
@@ -147,6 +153,13 @@ namespace BrickBreaker
             float ballX = this.Width / 2 - 10;
             float ballY = this.Height - Convert.ToInt32(paddle.height) - 80;
 
+            // set powerup values
+            int powerUpX = this.Width / 2;
+            int powerUpY = 40;
+            int powerUpSpeed = 5;
+            int powerUpSize = 20;
+            powerUp = new PowerUp(powerUpX, powerUpY, powerUpSpeed, powerUpSize);
+
             // Creates a new ball
             startDirection = 0; 
             int ballSize = 20;
@@ -228,7 +241,7 @@ namespace BrickBreaker
 
             // Move ball
             if (ballMoving)
-            {
+            {   
                 ball.Move();
             }
             else
@@ -244,15 +257,21 @@ namespace BrickBreaker
                 {
                     startDirection -= 2;
                 }
-                if(startDirection < 90)
+                if(startDirection < 100)
                 {
-                    startDirection = 90;
+                    startDirection = 100;
                 }
-                else if(startDirection > 270)
+                else if(startDirection > 260)
                 {
-                    startDirection = 270;
+                    startDirection = 260;
                 }
                 ball.currentBlockCol = "none";
+            }
+
+            // Powerup Moving
+            if(powerUpSpawned == true)
+            {
+                powerUp.Drop();
             }
 
             // Check for collision with top and side walls
@@ -293,9 +312,12 @@ namespace BrickBreaker
                     b.hp--;
                     if (b.hp <= 0)
                     {
+                        if(randGen.Next(0, 5) == 0){
+                            powerUps.Add(new Powerup(b.x + b.w / 2, b.y + b.h / 2));
+                        }
+                        
                         blocks.Remove(b);
 
-                        PowerUpMethod();
 
                         if (blocks.Count == 0)
                         {
@@ -306,8 +328,20 @@ namespace BrickBreaker
                     break;
                 }
             }
-
-
+            
+            // Powerups
+            
+            foreach(int i = powerUps.Count-1;i >= 0;i --){
+              powerUps[i].Drop();
+              if(powerUps[i].PaddleCollision(paddle)){
+                PowerUpMethod(powerUps[i].type);
+                powerUps.RemoveAt(i);
+              }
+              if(powerUps[i].BottomCollision(this)){
+                powerUps.RemoveAt(i);
+              }
+            }
+            
             //redraw the screen
             Refresh();
         }
@@ -324,8 +358,6 @@ namespace BrickBreaker
             form.Controls.Remove(this);
         }
 
-       
-
         public void GameScreen_Paint(object sender, PaintEventArgs e)
         {
             // Draws paddle
@@ -337,6 +369,20 @@ namespace BrickBreaker
             {
                 e.Graphics.DrawImage(brickImage, b.x, b.y, b.width, b.height);
                 e.Graphics.DrawString(b.hp.ToString(), DefaultFont, new SolidBrush(Color.Black), b.x + b.width / 2, b.y + b.height / 2);
+            }
+
+            // Draws powerup
+            if (powerupCounter >= 5)
+            {
+                powerUpSpawned = true;
+                if (powerUpSpawned == true)
+                {
+                    e.Graphics.FillRectangle(powerUpBrush, powerUp.x, powerUp.y, powerUp.size, powerUp.size);
+                }
+            }
+            
+            foreach(PowerUp pwrUp in powerups){
+                e.Graphics.FillRectangle(powerUpBrush, pwrUp.x, pwrUp.y, pwrUp.size, pwrUp.size);
             }
 
             // Draws ball
@@ -352,40 +398,24 @@ namespace BrickBreaker
             }
         }
 
-        public void PowerUpMethod()
+        public void PowerUpMethod(int _type)
         {
-            powerupCounter++;
-
-            if (powerupCounter == 5)
-            {               
-                Random rand = new Random();
-                int powerUp = rand.Next(1, 6);
-
-                if (powerUp == 1)
-                {
-                    InstaBreak();
-                    powerupCounter = 0;
-                }
-                if (powerUp == 2)
-                {
-                    SpeedIncrease();
-                    powerupCounter = 0;
-                }
-                if (powerUp == 3)
-                {
-                    IncreasePaddleSize();
-                    powerupCounter = 0;
-                }
-                if (powerUp == 4)
-                {
-                    Gun();
-                    powerupCounter = 0;
-                }
-                else
-                {
-                    DaBabyLaunch();
-                    powerupCounter = 0;
-                }
+            switch(_type){
+              case 1:
+                InstaBreak();
+                break;
+              case 2:
+                SpeedIncrease();
+                break;
+              case 3:
+                IncreasePaddleSize();
+                break;
+              case 4:
+                Gun();
+                break;
+              case 5:
+                DaBabyLaunch();
+                break;
             }
         }
 
