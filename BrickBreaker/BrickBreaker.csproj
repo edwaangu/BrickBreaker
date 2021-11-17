@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BrickBreaker</RootNamespace>
     <AssemblyName>BrickBreaker</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <TargetFrameworkProfile />
@@ -149,13 +149,7 @@
     <None Include="Resources\daGameScreen.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\levitating.wav" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\under.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\[CLEAN] DaBaby - Ball If I Want To.wav" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\flat,128x128,075,t-pad,128x128,f8f8f8.u4.jpg" />
@@ -175,9 +169,15 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\levitating.wav" />
+    <None Include="Resources\0lives.png" />
+    <None Include="Resources\1life.png" />
+    <None Include="Resources\2lives.png" />
+    <None Include="Resources\3lives.png" />
     <Content Include="Resources\XML.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\[CLEAN] DaBaby - Ball If I Want To.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
