@@ -134,9 +134,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\BALL.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\black-wall-texture-19.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -165,7 +162,27 @@
     <None Include="Resources\50d.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="XML.xml" />
+    <None Include="Resources\[CLEAN] DaBaby - Ball If I Want To.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\levitating.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BALL.png" />
+    <None Include="Resources\biggaGlock.png" />
+    <None Include="Resources\breakpowerup.png" />
+    <None Include="Resources\dababylaunchpng.png" />
+    <None Include="Resources\DABABY-PADDLe.png" />
+    <None Include="Resources\gunpowerup.png" />
+    <None Include="Resources\increasesizepowerup.png" />
+    <None Include="Resources\speedpowerup.png" />
+    <Content Include="Resources\XML.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

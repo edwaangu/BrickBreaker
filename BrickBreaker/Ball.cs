@@ -1,19 +1,26 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace BrickBreaker
 {
     public class Ball
     {
+        // Basic variables
         public float x, y, xSpeed, ySpeed, size;
         public Image image;
         public Color colour;
+
+        // Collision related variables
+        public string currentBlockCol = "none";
+        Rectangle futureRectCol;
 
         public static Random rand = new Random();
 
         public Ball(float _x, float _y, float _xSpeed, float _ySpeed, int _ballSize, Image _image)
         {
+            // Set variables
             x = _x;
             y = _y;
             xSpeed = _xSpeed;
@@ -24,47 +31,79 @@ namespace BrickBreaker
 
         public void Move()
         {
+            // Update position
             x = x + xSpeed;
             y = y + ySpeed;
+
+            // Update position if there was a future collision last frame
+            if (currentBlockCol != "none")
+            {
+                if (currentBlockCol == "fromLeft")
+                {
+                    xSpeed = -Math.Abs(xSpeed);
+                    x = Convert.ToInt16(futureRectCol.X - size - 2);
+                }
+                if (currentBlockCol == "fromRight")
+                {
+                    xSpeed = Math.Abs(xSpeed);
+                    x = Convert.ToInt16(futureRectCol.X + futureRectCol.Width + 2);
+                }
+                if (currentBlockCol == "fromUp")
+                {
+                    ySpeed = -Math.Abs(ySpeed);
+                    y = Convert.ToInt16(futureRectCol.Y - size - 2);
+                }
+                if (currentBlockCol == "fromDown")
+                {
+                    ySpeed = Math.Abs(ySpeed);
+                    y = Convert.ToInt16(futureRectCol.Y + futureRectCol.Height + 2);
+                }
+                currentBlockCol = "none";
+            }
+        }
+
+        public string Collision(Rectangle r, Rectangle b)
+        {
+            // Check what side the collision is on
+            if(r.IntersectsWith(new Rectangle(b.X, b.Y + b.Height - 5, b.Width, 5)))
+            {
+                return "fromDown";
+            }
+            else if (r.IntersectsWith(new Rectangle(b.X, b.Y, b.Width, 5)))
+            {
+                return "fromUp";
+            }
+            else if (r.IntersectsWith(new Rectangle(b.X, b.Y, 5, b.Height)))
+            {
+                return "fromLeft";
+            }
+            else if (r.IntersectsWith(new Rectangle(b.X + b.Width - 5, b.Y, 5, b.Height)))
+            {
+                return "fromRight";
+            }
+            return "none";
         }
 
         public bool BlockCollision(Block b)
         {
+            // Get rectanglular collision objects
             Rectangle blockRec = new Rectangle(b.x, b.y, b.width, b.height);
             Rectangle ballRec = new Rectangle(Convert.ToInt16(x), Convert.ToInt16(y), Convert.ToInt16(size), Convert.ToInt16(size));
+            Rectangle futureBallRec = new Rectangle(Convert.ToInt16(x + xSpeed), Convert.ToInt16(y + ySpeed), Convert.ToInt16(size), Convert.ToInt16(size));
 
-            if (ballRec.IntersectsWith(blockRec))
+            // Check if this block will have a collision with the player next frame
+            if(Collision(futureBallRec, blockRec) != "none")
             {
-                if (x > b.x - size - xSpeed && x < b.x + (b.width / 4) - xSpeed && y > b.y - size + 5 && y < b.y + b.height - 5)
-                {
-                    xSpeed = -Math.Abs(xSpeed);
-                    x = Convert.ToInt16(b.x - size - 2);
-                }
-                else if (x < b.x + b.width - xSpeed && x > b.x - size - xSpeed + b.width - (b.width / 4) && y > b.y - size + 5 && y < b.y + b.height - 5)
-                {
-                    xSpeed = Math.Abs(xSpeed);
-                    x = Convert.ToInt16(b.x + b.width + 2);
-                }
-                else if (x > b.x - size + 5 && x < b.x + b.width - 5)
-                {
-                    if (y > b.y - size && y < b.y - size + (b.height / 2))
-                    {
-                        y = Convert.ToInt16(b.y - size);
-                        ySpeed = -Math.Abs(ySpeed);
-                    }
-                    else
-                    {
-                        y = Convert.ToInt16(b.y + b.height);
-                        ySpeed = Math.Abs(ySpeed);
-                    }
-                }
+                currentBlockCol = Collision(futureBallRec, blockRec);
+                futureRectCol = new Rectangle(Convert.ToInt16(x), Convert.ToInt16(y), Convert.ToInt16(size), Convert.ToInt16(size));
             }
 
-            return blockRec.IntersectsWith(ballRec);
+            return futureBallRec.IntersectsWith(blockRec);
         }
 
         public void PaddleCollision(Paddle p)
         {
+            // Check for paddle collisions with boxes
             Rectangle ballRec = new Rectangle(Convert.ToInt16(x), Convert.ToInt16(y), Convert.ToInt16(size), Convert.ToInt16(size));
             Rectangle paddleRec = new Rectangle(Convert.ToInt16(p.x), Convert.ToInt16(p.y), Convert.ToInt16(p.width), Convert.ToInt16(p.height));
 
@@ -106,12 +145,14 @@ namespace BrickBreaker
                 xSpeed *= -1;
                 x = 1;
             }
+
             // Collision with right wall
             if (x >= (UC.Width - size))
             {
                 xSpeed *= -1;
                 x = UC.Width - size - 1;
             }
+
             // Collision with top wall
             if (y <= 2)
             {
@@ -122,6 +163,7 @@ namespace BrickBreaker
 
         public bool BottomCollision(UserControl UC)
         {
+            // Check if the ball is below the screen
             Boolean didCollide = false;
 
             if (y >= UC.Height)
@@ -130,6 +172,11 @@ namespace BrickBreaker
             }
 
             return didCollide;
+        }
+
+        public void PlaySound()
+        {
+
         }
 
     }
