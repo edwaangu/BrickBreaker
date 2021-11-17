@@ -125,13 +125,13 @@ namespace BrickBreaker
                     {
                         y = Convert.ToInt16(p.y - size);
                         ySpeed = -Math.Abs(ySpeed);
-                        xSpeed += p.xs / 5;
+                        xSpeed += (x - p.x - p.width / 2) / 15;
                     }
                     else
                     {
                         y = Convert.ToInt16(p.y + p.height);
                         ySpeed = Math.Abs(ySpeed);
-                        xSpeed += p.xs / 5;
+                        xSpeed += (x - p.x - p.width / 2) / 15;
                     }
                 }
             }

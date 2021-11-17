@@ -57,7 +57,22 @@ namespace BrickBreaker
 
         // Should ball move
         bool ballMoving = false;
+
+        // Images
         Image brickImage = Properties.Resources.whiteBrick2;
+        Image ballImage = Properties.Resources.BALL;
+        Image paddleImage = Properties.Resources.DABABY_PADDLe;
+        Image lives0Image = Properties.Resources._0lives1;
+        Image lives1Image = Properties.Resources._1life1;
+        Image lives2Image = Properties.Resources._2lives1;
+        Image lives3Image = Properties.Resources._3lives1;
+
+
+        Image powerup1 = Properties.Resources.breakpowerup;
+        Image powerup2 = Properties.Resources.speedpowerup;
+        Image powerup3 = Properties.Resources.increasesizepowerup;
+        Image powerup4 = Properties.Resources.gunpowerup;
+        Image powerup5 = Properties.Resources.dababylaunchpng;
 
         #endregion
 
@@ -131,7 +146,8 @@ namespace BrickBreaker
         {
             // set starting score to 0
             playerScore = 0;
-              
+            scoreLabel.Text = $"Your Score: {playerScore}";  
+
             
             //set life counter
             lives = 3;
@@ -143,7 +159,7 @@ namespace BrickBreaker
             leftArrowDown = rightArrowDown = false;
 
             // setup starting paddle values and create paddle object
-            int paddleWidth = 80;
+            int paddleWidth = 100;
             int paddleHeight = 20;
             int paddleX = ((this.Width / 2) - (paddleWidth / 2));
             int paddleY = (this.Height - paddleHeight) - 60;
@@ -274,11 +290,10 @@ namespace BrickBreaker
             // Check for ball hitting bottom of screen
             if (ball.BottomCollision(this))
             {
-                lives--;
-               
-                playerScore--;
+                lives--;                      
                 scoreLabel.Text = $"Your Score:{playerScore}";
 
+           
                 // Moves the ball back to origin
                 ball.x = ((Convert.ToInt32(paddle.x) - (ball.size / 2)) + (Convert.ToInt32(paddle.width) / 2));
                 ball.y = (this.Height - Convert.ToInt32(paddle.height)) - 80;
@@ -356,7 +371,8 @@ namespace BrickBreaker
         {
             // Draws paddle
             paddleBrush.Color = paddle.colour;
-            e.Graphics.FillRectangle(paddleBrush, paddle.x, paddle.y, paddle.width, paddle.height);
+            //e.Graphics.FillRectangle(paddleBrush, paddle.x, paddle.y, paddle.width, paddle.height);
+            e.Graphics.DrawImage(paddleImage, paddle.x, paddle.y - 30);
 
             // Draws blocks
             foreach (Block b in blocks)
@@ -364,13 +380,33 @@ namespace BrickBreaker
                 e.Graphics.DrawImage(brickImage, b.x, b.y, b.width, b.height);
                 e.Graphics.DrawString(b.hp.ToString(), DefaultFont, new SolidBrush(Color.Black), b.x + b.width / 2, b.y + b.height / 2);
             }
-            
-            foreach(PowerUp pwrUp in powerUps){
-                e.Graphics.FillRectangle(powerUpBrush, pwrUp.x, pwrUp.y, pwrUp.size, pwrUp.size);
+
+            foreach (PowerUp pwrUp in powerUps) {
+                //e.Graphics.FillRectangle(powerUpBrush, pwrUp.x, pwrUp.y, pwrUp.size, pwrUp.size);
+
+                switch (pwrUp.type)
+                {
+                    case 1:
+                        e.Graphics.DrawImage(powerup1, pwrUp.x, pwrUp.y);
+                        break;
+                    case 2:
+                        e.Graphics.DrawImage(powerup2, pwrUp.x, pwrUp.y);
+                        break;
+                    case 3:
+                        e.Graphics.DrawImage(powerup3, pwrUp.x, pwrUp.y);
+                        break;
+                    case 4:
+                        e.Graphics.DrawImage(powerup4, pwrUp.x, pwrUp.y);
+                        break;
+                    case 5:
+                        e.Graphics.DrawImage(powerup5, pwrUp.x, pwrUp.y, 20, 20);
+                        break;
+                }
             }
 
             // Draws ball
-            e.Graphics.FillRectangle(new SolidBrush(Color.White), ball.x, ball.y, ball.size, ball.size);
+            //e.Graphics.FillRectangle(new SolidBrush(Color.White), ball.x, ball.y, ball.size, ball.size);
+            e.Graphics.DrawImage(ballImage, ball.x, ball.y);
 
             if (!ballMoving)
             {
@@ -379,6 +415,21 @@ namespace BrickBreaker
                     float yS = Convert.ToSingle(Math.Cos(startDirection / (180 / 3.14)) * 4);
                     e.Graphics.FillEllipse(new SolidBrush(Color.Gray), ball.x + ((10 - i * 2) / 2) + xS * ((i + 1) * 5), ball.y + ((10 - i * 2) / 2) + yS * ((i + 1) * 5), 10 - i * 2, 10 - i * 2);
                 }
+            }
+
+            //e.Graphics.DrawImage(lives1Image, 0, 0);
+
+            // Lives
+            switch (lives) {
+                case 1:
+                    e.Graphics.DrawImage(lives1Image, 710, 451, 144, 115);
+                    break;
+                case 2:
+                    e.Graphics.DrawImage(lives2Image, 710, 451, 144, 115);
+                    break;
+                case 3:
+                    e.Graphics.DrawImage(lives3Image, 710, 451, 144, 115);
+                    break;
             }
         }
 
