@@ -25,6 +25,7 @@ namespace BrickBreaker
         // Game values
         int lives;
         int powerupCounter;
+        public static int powerChoice;
 
         // Paddle and Ball objects
         Paddle paddle;
@@ -38,6 +39,10 @@ namespace BrickBreaker
         SolidBrush paddleBrush = new SolidBrush(Color.White);
         SolidBrush ballBrush = new SolidBrush(Color.White);
         SolidBrush blockBrush = new SolidBrush(Color.Red);
+        SolidBrush powerUpBrush = new SolidBrush(Color.Green);
+
+        //Tracks powerup
+        bool powerUpSpawned = false;
 
         // Random
         Random randGen = new Random();
@@ -85,6 +90,13 @@ namespace BrickBreaker
             // setup starting ball values
             float ballX = this.Width / 2 - 10;
             float ballY = this.Height - Convert.ToInt32(paddle.height) - 80;
+
+            // set powerup values
+            int powerUpX = this.Width / 2;
+            int powerUpY = 40;
+            int powerUpSpeed = 5;
+            int powerUpSize = 20;
+            powerUp = new PowerUp(powerUpX, powerUpY, powerUpSpeed, powerUpSize);
 
             // Creates a new ball
             float dir = Convert.ToSingle(randGen.Next(0, 360));
@@ -164,12 +176,18 @@ namespace BrickBreaker
 
             // Move ball
             if (ballMoving)
-            {
+            {   
                 ball.Move();
             }
             else
             {
                 ball.x = Convert.ToInt16(paddle.x + paddle.width / 2 - ball.size / 2);
+            }
+
+            // Powerup Moving
+            if(powerUpSpawned == true)
+            {
+                powerUp.Drop();
             }
 
             // Check for collision with top and side walls
@@ -216,8 +234,6 @@ namespace BrickBreaker
                     break;
                 }
             }
-
-
             //redraw the screen
             Refresh();
         }
@@ -234,8 +250,6 @@ namespace BrickBreaker
             form.Controls.Remove(this);
         }
 
-       
-
         public void GameScreen_Paint(object sender, PaintEventArgs e)
         {
             // Draws paddle
@@ -248,6 +262,17 @@ namespace BrickBreaker
                 e.Graphics.DrawImage(brickImage, b.x, b.y, b.width, b.height);
             }
 
+            // Draws powerup
+            if (powerupCounter >= 5)
+            {
+                powerUpSpawned = true;
+                if (powerUpSpawned == true)
+                {
+                    e.Graphics.FillRectangle(powerUpBrush, powerUp.x, powerUp.y, powerUp.size, powerUp.size);
+                }
+               
+            }
+
             // Draws ball
             e.Graphics.FillRectangle(new SolidBrush(Color.White), ball.x, ball.y, ball.size, ball.size);
         }
@@ -256,34 +281,45 @@ namespace BrickBreaker
         {
             powerupCounter++;
 
-            if (powerupCounter == 5)
-            {               
+            if (powerUpSpawned == true)
+            {
                 Random rand = new Random();
-                int powerUp = rand.Next(1, 6);
+                powerChoice = rand.Next(1, 6);
 
-                if (powerUp == 1)
+                if(powerUp.BottomCollision(this))
+                {
+                    powerUpSpawned = false;
+                    powerupCounter = 0;
+                }
+
+                if (powerUp.PaddleCollision(paddle) && powerChoice == 1 )
                 {
                     InstaBreak();
+                    powerUpSpawned = false;
                     powerupCounter = 0;
                 }
-                if (powerUp == 2)
+                if (powerUp.PaddleCollision(paddle) && powerChoice == 2)
                 {
                     SpeedIncrease();
+                    powerUpSpawned = false;
                     powerupCounter = 0;
                 }
-                if (powerUp == 3)
+                if (powerUp.PaddleCollision(paddle) && powerChoice == 3)
                 {
                     IncreasePaddleSize();
+                    powerUpSpawned = false;
                     powerupCounter = 0;
                 }
-                if (powerUp == 4)
+                if (powerUp.PaddleCollision(paddle) && powerChoice == 4)
                 {
                     Gun();
+                    powerUpSpawned = false;
                     powerupCounter = 0;
                 }
-                else
+                else if (powerUp.PaddleCollision(paddle) && powerChoice == 5)
                 {
                     DaBabyLaunch();
+                    powerUpSpawned = false;
                     powerupCounter = 0;
                 }
             }
@@ -295,11 +331,7 @@ namespace BrickBreaker
         }
         public void SpeedIncrease()
         {
-            for (int i = 0; i < 15; i++)
-            {
-                ball.xSpeed = 10;
-            }
-            ball.xSpeed = 6;
+
         }
         public void IncreasePaddleSize()
         {
