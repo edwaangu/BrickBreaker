@@ -128,7 +128,8 @@ namespace BrickBreaker
         {
             // set starting score to 0
             playerScore = 0;
-              
+            scoreLabel.Text = $"Your Score: {playerScore}";  
+
             
             //set life counter
             lives = 3;
@@ -266,11 +267,10 @@ namespace BrickBreaker
             // Check for ball hitting bottom of screen
             if (ball.BottomCollision(this))
             {
-                lives--;
-               
-                playerScore--;
+                lives--;                      
                 scoreLabel.Text = $"Your Score:{playerScore}";
 
+           
                 // Moves the ball back to origin
                 ball.x = ((Convert.ToInt32(paddle.x) - (ball.size / 2)) + (Convert.ToInt32(paddle.width) / 2));
                 ball.y = (this.Height - Convert.ToInt32(paddle.height)) - 80;
@@ -278,8 +278,17 @@ namespace BrickBreaker
                 ball.ySpeed = Convert.ToSingle(Math.Cos(startDirection / (180 / 3.14)) * 6);
                 ballMoving = false;
 
+                if (lives == 2)
+                {
+                    livesPicBox.Image = Properties.Resources._2lives;
+                }
+                if (lives == 1)
+                {
+                    livesPicBox.Image = Properties.Resources._1life;
+                }
                 if (lives == 0)
                 {
+                    livesPicBox.Image = Properties.Resources._0lives;
                     gameTimer.Enabled = false;
                     OnEnd();
                 }
