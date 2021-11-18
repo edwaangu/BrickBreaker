@@ -321,6 +321,10 @@ namespace BrickBreaker
                     playerScore++;
                     scoreLabel.Text = $"Your Score:{playerScore}";
                     b.hp--;
+                    if (instaBreak)
+                    {
+                        b.hp = 0;
+                    }
                     if (b.hp <= 0)
                     {
                         if(randGen.Next(0, 5) == 0){
@@ -353,21 +357,20 @@ namespace BrickBreaker
                   }
             }
 
-            if(instaCounter == 500)
+            if(instaCounter == 500 && instaBreak)
             {
                 instaBreak = false;
             }
-            if (speedCounter == 240)
+            if (speedCounter == 240 && speedIncrease)
             {
                 speedIncrease = false;
+                ball.xSpeed /= 1.7f;
+                ball.ySpeed /= 1.7f;
             }
-            if (paddleCounter == 300)
+            if (paddleCounter == 300 && paddleSize)
             {
                 paddleSize = false;
-            }
-            if(gunCounter == 180)
-            {
-                gun = false;
+                paddle.width -= 25;
             }
 
             //redraw the screen
@@ -391,7 +394,7 @@ namespace BrickBreaker
             // Draws paddle
             paddleBrush.Color = paddle.colour;
             //e.Graphics.FillRectangle(paddleBrush, paddle.x, paddle.y, paddle.width, paddle.height);
-            e.Graphics.DrawImage(paddleImage, paddle.x, paddle.y - 30);
+            e.Graphics.DrawImage(paddleImage, paddle.x, paddle.y - 30, paddle.width, 50);
 
             // Draws blocks
             foreach (Block b in blocks)
@@ -415,9 +418,6 @@ namespace BrickBreaker
                         e.Graphics.DrawImage(powerup3, pwrUp.x, pwrUp.y);
                         break;
                     case 4:
-                        e.Graphics.DrawImage(powerup4, pwrUp.x, pwrUp.y);
-                        break;
-                    case 5:
                         e.Graphics.DrawImage(powerup5, pwrUp.x, pwrUp.y, 20, 20);
                         break;
                 }
@@ -446,9 +446,10 @@ namespace BrickBreaker
                 case 2:
                     e.Graphics.DrawImage(lives2Image, 710, 451, 144, 115);
                     break;
-                case 3:
-                    e.Graphics.DrawImage(lives3Image, 710, 451, 144, 115);
-                    break;
+            }
+            if(lives >= 3)
+            {
+                e.Graphics.DrawImage(lives3Image, 710, 451, 144, 115);
             }
         }
 
@@ -468,10 +469,6 @@ namespace BrickBreaker
                     IncreasePaddleSize();
                     break;
                 case 4:
-                    gun = true;
-                    Gun();
-                    break;
-                case 5:
                     ExtraLife();
                     break;
             }
@@ -479,27 +476,8 @@ namespace BrickBreaker
 
         public void InstaBreak()
         {
-            if (instaBreak == true)
-               {
-                foreach (Block b in blocks)
-                {
-                    if (ball.BlockCollision(b))
-                    {
-                        playerScore++;
-                        scoreLabel.Text = $"Your Score:{playerScore}";
-                        b.hp = 0;
-                        if (b.hp <= 0)
-                        {
-                            blocks.Remove(b);
-
-                            if (blocks.Count == 0)
-                            {
-                                NewLevel();
-                            }
-                        }
-                    }
-                }
-            }
+            instaCounter = 0;
+            instaBreak = true;
         }
         public void SpeedIncrease()
         {
@@ -513,7 +491,7 @@ namespace BrickBreaker
         {
             if (paddleSize == true)
             {
-                paddle.width = 145;
+                paddle.width +=25;
 
             }
         }

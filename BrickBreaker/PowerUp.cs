@@ -17,7 +17,7 @@ namespace BrickBreaker
         {
             x = _x;
             y = _y;
-            type = randGen.Next(1, 6);
+            type = randGen.Next(1, 5);
         }
         public void Drop()
         {
