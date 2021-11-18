@@ -328,7 +328,7 @@ namespace BrickBreaker
                     }
                     if (b.hp <= 0)
                     {
-                        if(randGen.Next(0, 5) == 0){
+                        if(randGen.Next(0, 5) >= 0){
                             powerUps.Add(new PowerUp(b.x + b.width / 2, b.y + b.height / 2));
                         }
                         

@@ -9,6 +9,7 @@ namespace BrickBreaker
     {
         // Basic variables
         public float x, y, xSpeed, ySpeed, size;
+        public float px, py;
         public Image image;
         public Color colour;
 
@@ -23,6 +24,8 @@ namespace BrickBreaker
             // Set variables
             x = _x;
             y = _y;
+            px = x;
+            py = y;
             xSpeed = _xSpeed;
             ySpeed = _ySpeed;
             size = _ballSize;
@@ -36,6 +39,7 @@ namespace BrickBreaker
             y = y + ySpeed;
 
             // Update position if there was a future collision last frame
+            /*
             if (currentBlockCol != "none")
             {
                 if (currentBlockCol == "fromLeft")
@@ -59,7 +63,7 @@ namespace BrickBreaker
                     y = Convert.ToInt16(futureRectCol.Y + futureRectCol.Height + 2);
                 }
                 currentBlockCol = "none";
-            }
+            }*/
         }
 
         public string Collision(Rectangle r, Rectangle b)
@@ -105,8 +109,20 @@ namespace BrickBreaker
         {
             // Check for paddle collisions with boxes
             Rectangle ballRec = new Rectangle(Convert.ToInt16(x), Convert.ToInt16(y), Convert.ToInt16(size), Convert.ToInt16(size));
+            px = x - xSpeed;
+            py = y - ySpeed;
             Rectangle paddleRec = new Rectangle(Convert.ToInt16(p.x), Convert.ToInt16(p.y), Convert.ToInt16(p.width), Convert.ToInt16(p.height));
 
+            if (ballRec.IntersectsWith(paddleRec))
+            {
+                if(x + size > p.x && x < p.x + p.width && y + size > p.y && y + size < p.y + p.height / 2)
+                {
+                    y = Convert.ToInt16(p.y - size);
+                    ySpeed = -Math.Abs(ySpeed);
+                }
+            }
+
+            /*
             if (ballRec.IntersectsWith(paddleRec))
             {
                 if(x > p.x - size - xSpeed && x < p.x + (p.width / 4) - xSpeed && y > p.y - size + 5 && y < p.y + p.height - 5)
@@ -134,7 +150,7 @@ namespace BrickBreaker
                         xSpeed += (x - p.x - p.width / 2) / 15;
                     }
                 }
-            }
+            }*/
         }
 
         public void WallCollision(UserControl UC)
