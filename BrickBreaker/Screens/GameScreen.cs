@@ -480,7 +480,7 @@ namespace BrickBreaker
         public void InstaBreak()
         {
             if (instaBreak == true)
-            {
+               {
                 foreach (Block b in blocks)
                 {
                     if (ball.BlockCollision(b))

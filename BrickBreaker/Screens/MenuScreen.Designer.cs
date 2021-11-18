@@ -73,6 +73,7 @@
             this.leaderboardButton.BackColor = System.Drawing.Color.White;
             this.leaderboardButton.BackgroundImage = global::BrickBreaker.Properties.Resources.whiteBrick;
             this.leaderboardButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.leaderboardButton.Enabled = false;
             this.leaderboardButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.leaderboardButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.leaderboardButton.Font = new System.Drawing.Font("Tahoma", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -82,6 +83,7 @@
             this.leaderboardButton.TabIndex = 2;
             this.leaderboardButton.Text = "Leaderboard";
             this.leaderboardButton.UseVisualStyleBackColor = false;
+            this.leaderboardButton.Visible = false;
             // 
             // MenuScreen
             // 
