@@ -26,11 +26,14 @@ namespace BrickBreaker
         // Game values
         int lives;
         int level;
-        int instabreakTime;
-        int speedIncreaseTime;
-        int paddleSizeTime;
-        int gunTime;
-        int dababyLaunchTime;
+        int instaCounter;
+        int speedCounter;
+        int paddleCounter;
+        int gunCounter;
+        bool instaBreak;
+        bool speedIncrease;
+        bool paddleSize;
+        bool gun;
         
         float startDirection = 180;
         bool directionLeftKey = false;
@@ -237,11 +240,10 @@ namespace BrickBreaker
 
         private void gameTimer_Tick(object sender, EventArgs e)
         {
-            instabreakTime--;
-            speedIncreaseTime--;
-            paddleSizeTime--;
-            gunTime--;
-            dababyLaunchTime--;
+            instaCounter++;
+            speedCounter++;
+            paddleCounter++;
+            gunCounter++;
 
             // Move the paddle
             if (leftArrowDown && paddle.x > 0)
@@ -350,7 +352,24 @@ namespace BrickBreaker
                     powerUps.RemoveAt(i);
                   }
             }
-            
+
+            if(instaCounter == 500)
+            {
+                instaBreak = false;
+            }
+            if (speedCounter == 240)
+            {
+                speedIncrease = false;
+            }
+            if (paddleCounter == 300)
+            {
+                paddleSize = false;
+            }
+            if(gunCounter == 180)
+            {
+                gun = false;
+            }
+
             //redraw the screen
             Refresh();
         }
@@ -437,29 +456,31 @@ namespace BrickBreaker
         {
             switch(_type){
               case 1:
-                InstaBreak();
+                    instaBreak = true;
+                    InstaBreak();
                 break;
                 case 2:
+                    speedIncrease = true;
                     SpeedIncrease();
                     break;
                 case 3:
+                    paddleSize = true;
                     IncreasePaddleSize();
                     break;
                 case 4:
+                    gun = true;
                     Gun();
                     break;
                 case 5:
-                    DaBabyLaunch();
+                    ExtraLife();
                     break;
             }
         }
 
         public void InstaBreak()
         {
-            instabreakTime = 180;
-
-            if (instabreakTime >= 0)
-            {
+            if (instaBreak == true)
+               {
                 foreach (Block b in blocks)
                 {
                     if (ball.BlockCollision(b))
@@ -482,8 +503,7 @@ namespace BrickBreaker
         }
         public void SpeedIncrease()
         {
-            speedIncreaseTime = 15;
-            if (speedIncreaseTime >= 0)
+            if (speedIncrease == true)
             {
                 ball.xSpeed *= 1.7f;
                 ball.ySpeed *= 1.7f;
@@ -491,8 +511,7 @@ namespace BrickBreaker
         }
         public void IncreasePaddleSize()
         {
-            paddleSizeTime = 30;
-            if (paddleSizeTime >= 0)
+            if (paddleSize == true)
             {
                 paddle.width = 145;
 
@@ -500,20 +519,15 @@ namespace BrickBreaker
         }
         public void Gun()
         {
-            gunTime = 20;
-            if (gunTime >= 0)
+            if (gun == true)
             {
 
             }
 
         }
-        public void DaBabyLaunch()
+        public void ExtraLife()
         {
-            dababyLaunchTime = 40;
-            if (dababyLaunchTime >= 0 )
-            {
-
-            }
+            lives++;
         }
     }
 }
