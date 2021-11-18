@@ -176,7 +176,7 @@ namespace BrickBreaker
             ball = new Ball(ballX, ballY, 0, 0, ballSize, Properties.Resources.whiteBrick2);
 
             // Setup level
-            level = 1;
+            level = 0;
             SetupLevel(level);
 
             // start the game engine loop
