@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Media;
 using System.Xml;
+using System.IO;
 
 namespace BrickBreaker
 {
@@ -62,13 +63,13 @@ namespace BrickBreaker
         bool ballMoving = false;
 
         // Images
-        Image brickImage = Properties.Resources.whiteBrick2;
+        Image brickImage = Properties.Resources.Brick;
         Image ballImage = Properties.Resources.BALL;
         Image paddleImage = Properties.Resources.DABABY_PADDLe;
-        Image lives0Image = Properties.Resources._0lives1;
-        Image lives1Image = Properties.Resources._1life1;
-        Image lives2Image = Properties.Resources._2lives1;
-        Image lives3Image = Properties.Resources._3lives1;
+        Image lives0Image = Properties.Resources._0lives;
+        Image lives1Image = Properties.Resources._1life;
+        Image lives2Image = Properties.Resources._2lives;
+        Image lives3Image = Properties.Resources._3lives;
 
 
         Image powerup1 = Properties.Resources.breakpowerup;
@@ -400,7 +401,7 @@ namespace BrickBreaker
             foreach (Block b in blocks)
             {
                 e.Graphics.DrawImage(brickImage, b.x, b.y, b.width, b.height);
-                e.Graphics.DrawString(b.hp.ToString(), DefaultFont, new SolidBrush(Color.Black), b.x + b.width / 2, b.y + b.height / 2);
+                //e.Graphics.DrawString(b.hp.ToString(), DefaultFont, new SolidBrush(Color.Black), b.x + b.width / 2, b.y + b.height / 2);
             }
 
             foreach (PowerUp pwrUp in powerUps) {
