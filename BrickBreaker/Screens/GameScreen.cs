@@ -49,7 +49,7 @@ namespace BrickBreaker
 
         // Should ball move
         bool ballMoving = false;
-        Image brickImage = Properties.Resources.whiteBrick2;
+        Image brickImage = Properties.Resources.Brick;
 
         #endregion
 
@@ -153,7 +153,7 @@ namespace BrickBreaker
             ball = new Ball(ballX, ballY, 0, 0, ballSize, Properties.Resources.whiteBrick2);
 
             // Setup level
-            level = 0;
+            level = 3;
             SetupLevel(level);
 
             // start the game engine loop
@@ -336,7 +336,7 @@ namespace BrickBreaker
             foreach (Block b in blocks)
             {
                 e.Graphics.DrawImage(brickImage, b.x, b.y, b.width, b.height);
-                e.Graphics.DrawString(b.hp.ToString(), DefaultFont, new SolidBrush(Color.Black), b.x + b.width / 2, b.y + b.height / 2);
+                e.Graphics.DrawString(b.hp.ToString(), DefaultFont, new SolidBrush(Color.White), b.x + b.width / 2, b.y + b.height / 2);
             }
 
             // Draws ball

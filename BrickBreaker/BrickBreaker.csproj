@@ -180,6 +180,7 @@
     <None Include="Resources\gunpowerup.png" />
     <None Include="Resources\increasesizepowerup.png" />
     <None Include="Resources\speedpowerup.png" />
+    <None Include="Resources\Brick.png" />
     <Content Include="Resources\XML.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
