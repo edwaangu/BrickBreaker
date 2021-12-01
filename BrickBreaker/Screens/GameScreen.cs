@@ -395,14 +395,14 @@ namespace BrickBreaker
             // Draws paddle
             paddleBrush.Color = paddle.colour;
             //e.Graphics.FillRectangle(paddleBrush, paddle.x, paddle.y, paddle.width, paddle.height);
-            //e.Graphics.DrawImage(paddleImage, paddle.x, paddle.y - 30, paddle.width, 50);
-            e.Graphics.DrawRectangle(new Pen(Color.Green, 2), paddle.x, paddle.y, paddle.width, paddle.height);
+            e.Graphics.DrawImage(paddleImage, paddle.x, paddle.y - 30, paddle.width, 50);
+            //e.Graphics.DrawRectangle(new Pen(Color.Green, 2), paddle.x, paddle.y, paddle.width, paddle.height);
 
             // Draws blocks
             foreach (Block b in blocks)
             {
-                //e.Graphics.DrawImage(brickImage, b.x, b.y, b.width, b.height);
-                e.Graphics.DrawRectangle(new Pen(Color.Red, 2), b.x, b.y, b.width, b.height);
+                e.Graphics.DrawImage(brickImage, b.x, b.y, b.width, b.height);
+                //e.Graphics.DrawRectangle(new Pen(Color.Red, 2), b.x, b.y, b.width, b.height);
                 //e.Graphics.DrawString(b.hp.ToString(), DefaultFont, new SolidBrush(Color.Black), b.x + b.width / 2, b.y + b.height / 2);
             }
 
@@ -427,10 +427,10 @@ namespace BrickBreaker
             }
 
             // Draws ball
-            e.Graphics.DrawRectangle(new Pen(Color.Yellow, 2), ball.x, ball.y, ball.size, ball.size);
-            //e.Graphics.DrawImage(ballImage, ball.x, ball.y);
+            //e.Graphics.DrawRectangle(new Pen(Color.Yellow, 2), ball.x, ball.y, ball.size, ball.size);
+            e.Graphics.DrawImage(ballImage, ball.x, ball.y);
 
-
+            /*
             double dir = Math.Atan2(ball.ySpeed, ball.xSpeed);
             for (int i = 0; i < 4; i++)
             {
@@ -451,7 +451,7 @@ namespace BrickBreaker
                 PointF currentPoint = new PointF(basePoint.X + Convert.ToSingle(Math.Cos(dir) * ball.size * 3 / 4), basePoint.Y + Convert.ToSingle(Math.Sin(dir) * ball.size * 3 / 4));
                 PointF point5Ago = new PointF(basePoint.X - (ball.xSpeed * 5), basePoint.Y - (ball.ySpeed * 5));
                 e.Graphics.DrawLine(new Pen(Color.Blue, 2), currentPoint, point5Ago);
-            }
+            }*/
             //e.Graphics.DrawLine(new Pen(Color.Blue, 2), ball.x + ball.size / 2, ball.y + ball.size / 2, ball.x + ball.size / 2 + Convert.ToSingle(Math.Cos(dir) * ball.size * 3/4), ball.y + ball.size / 2 + Convert.ToSingle(Math.Sin(dir) * ball.size * 3/4));
 
             //e.Graphics.DrawString(ball.collisionTotals.ToString(), new Font(FontFamily.GenericSansSerif, 20, FontStyle.Regular), new SolidBrush(Color.White), ball.x, ball.y);
