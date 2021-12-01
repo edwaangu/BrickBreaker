@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Media;
 using System.Xml;
+using System.IO;
 
 namespace BrickBreaker
 {
@@ -26,11 +27,14 @@ namespace BrickBreaker
         // Game values
         int lives;
         int level;
-        int instabreakTime;
-        int speedIncreaseTime;
-        int paddleSizeTime;
-        int gunTime;
-        int dababyLaunchTime;
+        int instaCounter;
+        int speedCounter;
+        int paddleCounter;
+        int gunCounter;
+        bool instaBreak;
+        bool speedIncrease;
+        bool paddleSize;
+        bool gun;
         
         float startDirection = 180;
         bool directionLeftKey = false;
@@ -59,13 +63,13 @@ namespace BrickBreaker
         bool ballMoving = false;
 
         // Images
-        Image brickImage = Properties.Resources.whiteBrick2;
+        Image brickImage = Properties.Resources.Brick;
         Image ballImage = Properties.Resources.BALL;
         Image paddleImage = Properties.Resources.DABABY_PADDLe;
-        Image lives0Image = Properties.Resources._0lives1;
-        Image lives1Image = Properties.Resources._1life1;
-        Image lives2Image = Properties.Resources._2lives1;
-        Image lives3Image = Properties.Resources._3lives1;
+        Image lives0Image = Properties.Resources._0lives;
+        Image lives1Image = Properties.Resources._1life;
+        Image lives2Image = Properties.Resources._2lives;
+        Image lives3Image = Properties.Resources._3lives;
 
 
         Image powerup1 = Properties.Resources.breakpowerup;
@@ -237,11 +241,10 @@ namespace BrickBreaker
 
         private void gameTimer_Tick(object sender, EventArgs e)
         {
-            instabreakTime--;
-            speedIncreaseTime--;
-            paddleSizeTime--;
-            gunTime--;
-            dababyLaunchTime--;
+            instaCounter++;
+            speedCounter++;
+            paddleCounter++;
+            gunCounter++;
 
             // Move the paddle
             if (leftArrowDown && paddle.x > 0)
@@ -319,9 +322,13 @@ namespace BrickBreaker
                     playerScore++;
                     scoreLabel.Text = $"Your Score:{playerScore}";
                     b.hp--;
+                    if (instaBreak)
+                    {
+                        b.hp = 0;
+                    }
                     if (b.hp <= 0)
                     {
-                        if(randGen.Next(0, 5) <= 6){
+                        if(randGen.Next(0, 5) >= 0){
                             powerUps.Add(new PowerUp(b.x + b.width / 2, b.y + b.height / 2));
                         }
                         
@@ -350,7 +357,23 @@ namespace BrickBreaker
                     powerUps.RemoveAt(i);
                   }
             }
-            
+
+            if(instaCounter == 500 && instaBreak)
+            {
+                instaBreak = false;
+            }
+            if (speedCounter == 240 && speedIncrease)
+            {
+                speedIncrease = false;
+                ball.xSpeed /= 1.7f;
+                ball.ySpeed /= 1.7f;
+            }
+            if (paddleCounter == 300 && paddleSize)
+            {
+                paddleSize = false;
+                paddle.width -= 25;
+            }
+
             //redraw the screen
             Refresh();
         }
@@ -372,13 +395,15 @@ namespace BrickBreaker
             // Draws paddle
             paddleBrush.Color = paddle.colour;
             //e.Graphics.FillRectangle(paddleBrush, paddle.x, paddle.y, paddle.width, paddle.height);
-            e.Graphics.DrawImage(paddleImage, paddle.x, paddle.y - 30);
+            e.Graphics.DrawImage(paddleImage, paddle.x, paddle.y - 30, paddle.width, 50);
+            //e.Graphics.DrawRectangle(new Pen(Color.Green, 2), paddle.x, paddle.y, paddle.width, paddle.height);
 
             // Draws blocks
             foreach (Block b in blocks)
             {
                 e.Graphics.DrawImage(brickImage, b.x, b.y, b.width, b.height);
-                e.Graphics.DrawString(b.hp.ToString(), DefaultFont, new SolidBrush(Color.Black), b.x + b.width / 2, b.y + b.height / 2);
+                //e.Graphics.DrawRectangle(new Pen(Color.Red, 2), b.x, b.y, b.width, b.height);
+                //e.Graphics.DrawString(b.hp.ToString(), DefaultFont, new SolidBrush(Color.Black), b.x + b.width / 2, b.y + b.height / 2);
             }
 
             foreach (PowerUp pwrUp in powerUps) {
@@ -396,17 +421,40 @@ namespace BrickBreaker
                         e.Graphics.DrawImage(powerup3, pwrUp.x, pwrUp.y);
                         break;
                     case 4:
-                        e.Graphics.DrawImage(powerup4, pwrUp.x, pwrUp.y);
-                        break;
-                    case 5:
                         e.Graphics.DrawImage(powerup5, pwrUp.x, pwrUp.y, 20, 20);
                         break;
                 }
             }
 
             // Draws ball
-            //e.Graphics.FillRectangle(new SolidBrush(Color.White), ball.x, ball.y, ball.size, ball.size);
+            //e.Graphics.DrawRectangle(new Pen(Color.Yellow, 2), ball.x, ball.y, ball.size, ball.size);
             e.Graphics.DrawImage(ballImage, ball.x, ball.y);
+
+            /*
+            double dir = Math.Atan2(ball.ySpeed, ball.xSpeed);
+            for (int i = 0; i < 4; i++)
+            {
+                PointF basePoint = new PointF(ball.x, ball.y);
+                if (i == 1)
+                {
+                    basePoint = new PointF(ball.x + ball.size, ball.y);
+                }
+                if (i == 2)
+                {
+                    basePoint = new PointF(ball.x + ball.size, ball.y + ball.size);
+                }
+                if (i == 3)
+                {
+                    basePoint = new PointF(ball.x, ball.y + ball.size);
+                }
+
+                PointF currentPoint = new PointF(basePoint.X + Convert.ToSingle(Math.Cos(dir) * ball.size * 3 / 4), basePoint.Y + Convert.ToSingle(Math.Sin(dir) * ball.size * 3 / 4));
+                PointF point5Ago = new PointF(basePoint.X - (ball.xSpeed * 5), basePoint.Y - (ball.ySpeed * 5));
+                e.Graphics.DrawLine(new Pen(Color.Blue, 2), currentPoint, point5Ago);
+            }*/
+            //e.Graphics.DrawLine(new Pen(Color.Blue, 2), ball.x + ball.size / 2, ball.y + ball.size / 2, ball.x + ball.size / 2 + Convert.ToSingle(Math.Cos(dir) * ball.size * 3/4), ball.y + ball.size / 2 + Convert.ToSingle(Math.Sin(dir) * ball.size * 3/4));
+
+            //e.Graphics.DrawString(ball.collisionTotals.ToString(), new Font(FontFamily.GenericSansSerif, 20, FontStyle.Regular), new SolidBrush(Color.White), ball.x, ball.y);
 
             if (!ballMoving)
             {
@@ -427,9 +475,10 @@ namespace BrickBreaker
                 case 2:
                     e.Graphics.DrawImage(lives2Image, 710, 451, 144, 115);
                     break;
-                case 3:
-                    e.Graphics.DrawImage(lives3Image, 710, 451, 144, 115);
-                    break;
+            }
+            if(lives >= 3)
+            {
+                e.Graphics.DrawImage(lives3Image, 710, 451, 144, 115);
             }
         }
 
@@ -437,53 +486,31 @@ namespace BrickBreaker
         {
             switch(_type){
               case 1:
-                InstaBreak();
+                    instaBreak = true;
+                    InstaBreak();
                 break;
                 case 2:
+                    speedIncrease = true;
                     SpeedIncrease();
                     break;
                 case 3:
+                    paddleSize = true;
                     IncreasePaddleSize();
                     break;
                 case 4:
-                    Gun();
-                    break;
-                case 5:
-                    DaBabyLaunch();
+                    ExtraLife();
                     break;
             }
         }
 
         public void InstaBreak()
         {
-            instabreakTime = 180;
-
-            if (instabreakTime >= 0)
-            {
-                foreach (Block b in blocks)
-                {
-                    if (ball.BlockCollision(b))
-                    {
-                        playerScore++;
-                        scoreLabel.Text = $"Your Score:{playerScore}";
-                        b.hp = 0;
-                        if (b.hp <= 0)
-                        {
-                            blocks.Remove(b);
-
-                            if (blocks.Count == 0)
-                            {
-                                NewLevel();
-                            }
-                        }
-                    }
-                }
-            }
+            instaCounter = 0;
+            instaBreak = true;
         }
         public void SpeedIncrease()
         {
-            speedIncreaseTime = 15;
-            if (speedIncreaseTime >= 0)
+            if (speedIncrease == true)
             {
                 ball.xSpeed *= 1.7f;
                 ball.ySpeed *= 1.7f;
@@ -491,29 +518,23 @@ namespace BrickBreaker
         }
         public void IncreasePaddleSize()
         {
-            paddleSizeTime = 30;
-            if (paddleSizeTime >= 0)
+            if (paddleSize == true)
             {
-                paddle.width = 145;
+                paddle.width +=25;
 
             }
         }
         public void Gun()
         {
-            gunTime = 20;
-            if (gunTime >= 0)
+            if (gun == true)
             {
 
             }
 
         }
-        public void DaBabyLaunch()
+        public void ExtraLife()
         {
-            dababyLaunchTime = 40;
-            if (dababyLaunchTime >= 0 )
-            {
-
-            }
+            lives++;
         }
     }
 }

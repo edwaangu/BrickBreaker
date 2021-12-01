@@ -36,7 +36,7 @@
             // playButton
             // 
             this.playButton.BackColor = System.Drawing.Color.White;
-            this.playButton.BackgroundImage = global::BrickBreaker.Properties.Resources.whiteBrick;
+            this.playButton.BackgroundImage = global::BrickBreaker.Properties.Resources.whiteBrick2;
             this.playButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.playButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.playButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
@@ -55,7 +55,7 @@
             // exitButton
             // 
             this.exitButton.BackColor = System.Drawing.Color.White;
-            this.exitButton.BackgroundImage = global::BrickBreaker.Properties.Resources.whiteBrick;
+            this.exitButton.BackgroundImage = global::BrickBreaker.Properties.Resources.whiteBrick2;
             this.exitButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.exitButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.exitButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -71,24 +71,26 @@
             // leaderboardButton
             // 
             this.leaderboardButton.BackColor = System.Drawing.Color.White;
-            this.leaderboardButton.BackgroundImage = global::BrickBreaker.Properties.Resources.whiteBrick;
+            this.leaderboardButton.BackgroundImage = global::BrickBreaker.Properties.Resources.whiteBrick2;
             this.leaderboardButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.leaderboardButton.Enabled = false;
             this.leaderboardButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.leaderboardButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.leaderboardButton.Font = new System.Drawing.Font("Tahoma", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.leaderboardButton.Location = new System.Drawing.Point(324, 461);
+            this.leaderboardButton.Location = new System.Drawing.Point(328, 386);
             this.leaderboardButton.Name = "leaderboardButton";
             this.leaderboardButton.Size = new System.Drawing.Size(198, 50);
             this.leaderboardButton.TabIndex = 2;
             this.leaderboardButton.Text = "Leaderboard";
             this.leaderboardButton.UseVisualStyleBackColor = false;
+            this.leaderboardButton.Visible = false;
             // 
             // MenuScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.Transparent;
-            this.BackgroundImage = global::BrickBreaker.Properties.Resources.daMenuScreen;
+            this.BackgroundImage = global::BrickBreaker.Properties.Resources.MENUSCREENBG;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Controls.Add(this.leaderboardButton);
             this.Controls.Add(this.exitButton);
