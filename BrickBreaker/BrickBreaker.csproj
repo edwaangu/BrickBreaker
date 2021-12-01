@@ -51,6 +51,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -62,6 +63,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ball.cs" />
@@ -143,55 +145,96 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\black-wall-texture-19.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\daMenuScreen.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\1-white-brick-wall-dutourdumonde-photography.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\daGameScreen.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\under.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\flat,128x128,075,t-pad,128x128,f8f8f8.u4.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\whiteBrick2.jpg" />
-    <None Include="Resources\50d.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\[CLEAN] DaBaby - Ball If I Want To.mp3">
+    <None Include="Resources\1-white-brick-wall-dutourdumonde-photography.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="Resources\50d.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\BALL.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\biggaGlock.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\black-wall-texture-19.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\breakpowerup.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Brick.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\collision.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\dababylaunchpng.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\DABABY-PADDLe.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\daGameScreen.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\daMenuScreen.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\flat,128x128,075,t-pad,128x128,f8f8f8.u4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\gunpowerup.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\increasesizepowerup.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\levitating.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\levitating.wav" />
-    <None Include="Resources\BALL.png" />
-    <None Include="Resources\biggaGlock.png" />
-    <None Include="Resources\breakpowerup.png" />
-    <None Include="Resources\dababylaunchpng.png" />
-    <None Include="Resources\DABABY-PADDLe.png" />
-    <None Include="Resources\gunpowerup.png" />
-    <None Include="Resources\increasesizepowerup.png" />
-    <None Include="Resources\speedpowerup.png" />
-    <None Include="Resources\0lives.png" />
-    <None Include="Resources\1life.png" />
-    <None Include="Resources\2lives.png" />
-    <None Include="Resources\3lives.png" />
+    <None Include="Resources\levitating.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\powerup.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\speedpowerup.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\under.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\whiteBrick2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\0lives.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\1life.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\2lives.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\3lives.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\GAMESCREENBG.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\MENUSCREENBG.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="Resources\XML.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Resources\[CLEAN] DaBaby - Ball If I Want To.wav" />
+    <None Include="Resources\[CLEAN] DaBaby - Ball If I Want To.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\[CLEAN] DaBaby - Ball If I Want To.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
