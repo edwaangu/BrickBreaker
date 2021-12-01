@@ -9,7 +9,7 @@ namespace BrickBreaker
 {
     class PowerUp
     {
-        public int x, y, size = 20, type;
+        public int x, y, size = 40, type;
         Random randGen = new Random(); // 1 = paddle increase, 2 = speed increase, 3 = instabreak, 4 = gun, 5 = launch
         public float ySpeed = 5;
 

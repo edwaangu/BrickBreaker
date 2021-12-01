@@ -66,10 +66,7 @@ namespace BrickBreaker
         Image brickImage = Properties.Resources.Brick;
         Image ballImage = Properties.Resources.BALL;
         Image paddleImage = Properties.Resources.DABABY_PADDLe;
-        Image lives0Image = Properties.Resources._0lives;
-        Image lives1Image = Properties.Resources._1life;
-        Image lives2Image = Properties.Resources._2lives;
-        Image lives3Image = Properties.Resources._3lives;
+        Image lifeImage = Properties.Resources.LIFE;
 
 
         Image powerup1 = Properties.Resources.breakpowerup;
@@ -180,7 +177,7 @@ namespace BrickBreaker
             ball = new Ball(ballX, ballY, 0, 0, ballSize, Properties.Resources.whiteBrick2);
 
             // Setup level
-            level = 0;
+            level = 3;
             SetupLevel(level);
 
             // start the game engine loop
@@ -329,7 +326,7 @@ namespace BrickBreaker
                     if (b.hp <= 0)
                     {
                         if(randGen.Next(0, 5) >= 0){
-                            powerUps.Add(new PowerUp(b.x + b.width / 2, b.y + b.height / 2));
+                            powerUps.Add(new PowerUp(b.x + b.width / 2 - 20, b.y + b.height / 2 - 20));
                         }
                         
                         blocks.Remove(b);
@@ -412,16 +409,16 @@ namespace BrickBreaker
                 switch (pwrUp.type)
                 {
                     case 1:
-                        e.Graphics.DrawImage(powerup1, pwrUp.x, pwrUp.y);
+                        e.Graphics.DrawImage(powerup1, pwrUp.x, pwrUp.y, 40, 40);
                         break;
                     case 2:
-                        e.Graphics.DrawImage(powerup2, pwrUp.x, pwrUp.y);
+                        e.Graphics.DrawImage(powerup2, pwrUp.x, pwrUp.y, 40, 40);
                         break;
                     case 3:
-                        e.Graphics.DrawImage(powerup3, pwrUp.x, pwrUp.y);
+                        e.Graphics.DrawImage(powerup3, pwrUp.x, pwrUp.y, 40, 40);
                         break;
                     case 4:
-                        e.Graphics.DrawImage(powerup5, pwrUp.x, pwrUp.y, 20, 20);
+                        e.Graphics.DrawImage(powerup5, pwrUp.x, pwrUp.y, 40, 40);
                         break;
                 }
             }
@@ -468,17 +465,10 @@ namespace BrickBreaker
             //e.Graphics.DrawImage(lives1Image, 0, 0);
 
             // Lives
-            switch (lives) {
-                case 1:
-                    e.Graphics.DrawImage(lives1Image, 710, 451, 144, 115);
-                    break;
-                case 2:
-                    e.Graphics.DrawImage(lives2Image, 710, 451, 144, 115);
-                    break;
-            }
-            if(lives >= 3)
+            for(int i = 0;i < lives;i++)
             {
-                e.Graphics.DrawImage(lives3Image, 710, 451, 144, 115);
+                e.Graphics.DrawImage(lifeImage, this.Width - 50 - i * 50, 451);
+
             }
         }
 
