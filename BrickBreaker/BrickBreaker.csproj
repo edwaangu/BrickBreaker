@@ -167,10 +167,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\levitating.wav" />
-    <None Include="Resources\0lives.png" />
-    <None Include="Resources\1life.png" />
-    <None Include="Resources\2lives.png" />
-    <None Include="Resources\3lives.png" />
     <None Include="Resources\BALL.png" />
     <None Include="Resources\biggaGlock.png" />
     <None Include="Resources\breakpowerup.png" />
@@ -179,6 +175,10 @@
     <None Include="Resources\gunpowerup.png" />
     <None Include="Resources\increasesizepowerup.png" />
     <None Include="Resources\speedpowerup.png" />
+    <None Include="Resources\0lives.png" />
+    <None Include="Resources\1life.png" />
+    <None Include="Resources\2lives.png" />
+    <None Include="Resources\3lives.png" />
     <Content Include="Resources\XML.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
