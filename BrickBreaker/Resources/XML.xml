@@ -12,16 +12,17 @@
       <type>3</type>
     </Block>
   </Level>
-  <Level>
-    <Block>
-      <x>250</x>
-      <y>50</y>
-      <type>1</type>
-    </Block>
-    <Block>
-      <x>305</x>
-      <y>50</y>
-      <type>1</type>
-    </Block>
-  </Level>
+	
+	<Level2>
+		<Block>
+			<x>250</x>
+			<y>50</y>
+			<type>1</type>
+		</Block>
+		<Block>
+			<x>305</x>
+			<y>50</y>
+			<type>1</type>
+		</Block>
+	</Level2>
 </daroot>
