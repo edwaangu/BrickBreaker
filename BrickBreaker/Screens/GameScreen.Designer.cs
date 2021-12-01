@@ -55,7 +55,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.Transparent;
-            this.BackgroundImage = global::BrickBreaker.Properties.Resources.daGameScreen;
+            this.BackgroundImage = global::BrickBreaker.Properties.Resources.GAMESCREENBG;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Controls.Add(this.scoreLabel);
             this.DoubleBuffered = true;
