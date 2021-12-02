@@ -548,14 +548,6 @@ namespace BrickBreaker
 
             }
         }
-        public void Gun()
-        {
-            if (gun == true)
-            {
-
-            }
-
-        }
         public void ExtraLife()
         {
             lives++;
