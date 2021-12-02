@@ -66,10 +66,7 @@ namespace BrickBreaker
         Image brickImage = Properties.Resources.Brick;
         Image ballImage = Properties.Resources.BALL;
         Image paddleImage = Properties.Resources.DABABY_PADDLe;
-        Image lives0Image = Properties.Resources._0lives;
-        Image lives1Image = Properties.Resources._1life;
-        Image lives2Image = Properties.Resources._2lives;
-        Image lives3Image = Properties.Resources._3lives;
+        Image lifeImage = Properties.Resources.LIFE;
 
 
         Image powerup1 = Properties.Resources.breakpowerup;
@@ -180,7 +177,7 @@ namespace BrickBreaker
             ball = new Ball(ballX, ballY, 0, 0, ballSize, Properties.Resources.whiteBrick2);
 
             // Setup level
-            level = 0;
+            level = 3;
             SetupLevel(level);
 
             // start the game engine loop
@@ -261,12 +258,8 @@ namespace BrickBreaker
 
             paddle.updatePosition(this.Width);
 
-            // Move ball
-            if (ballMoving)
-            {   
-                ball.Move();
-            }
-            else
+            // Stop move ball
+            if(!ballMoving)
             {
                 ball.x = Convert.ToInt16(paddle.x + paddle.width / 2 - ball.size / 2);
 
@@ -290,59 +283,74 @@ namespace BrickBreaker
                 ball.currentBlockCol = "none";
             }
 
-            // Check for collision with top and side walls
-            ball.WallCollision(this);
-
-            // Check for ball hitting bottom of screen
-            if (ball.BottomCollision(this))
+            // Move ball
+            for (float i = 0; i < 10; i++)
             {
-                lives--;                      
-           
-                // Moves the ball back to origin
-                ball.x = ((Convert.ToInt32(paddle.x) - (ball.size / 2)) + (Convert.ToInt32(paddle.width) / 2));
-                ball.y = (this.Height - Convert.ToInt32(paddle.height)) - 80;
-                ball.xSpeed = Convert.ToSingle(Math.Sin(startDirection / (180 / 3.14)) * 6);
-                ball.ySpeed = Convert.ToSingle(Math.Cos(startDirection / (180 / 3.14)) * 6);
-                ballMoving = false;
-
-                if (lives == 0)
+                if (ballMoving)
                 {
-                    gameTimer.Enabled = false;
-                    OnEnd();
+                    ball.Move(10);
                 }
-            }
 
-            // Check for collision of ball with paddle, (incl. paddle movement)
-            ball.PaddleCollision(paddle);
+                // Check for collision with top and side walls
+                ball.WallCollision(this);
 
-            // Check if ball has collided with any blocks
-            foreach (Block b in blocks)
-            {
-                if (ball.BlockCollision(b))
+                // Check for ball hitting bottom of screen
+                if (ball.BottomCollision(this))
                 {
                     playerScore += 25;
+                    lives--;
                     scoreLabel.Text = $"Your Score:{playerScore}";
-                    b.hp--;
-                    if (instaBreak)
-                    {
-                        b.hp = 0;
-                    }
-                    if (b.hp <= 0)
-                    {
-                        if(randGen.Next(0, 5) >= 0){
-                            powerUps.Add(new PowerUp(b.x + b.width / 2, b.y + b.height / 2));
-                        }
-                        
-                        blocks.Remove(b);
-                        playerScore += 50;
 
-                        if (blocks.Count == 0)
+
+                    // Moves the ball back to origin
+                    ball.x = ((Convert.ToInt32(paddle.x) - (ball.size / 2)) + (Convert.ToInt32(paddle.width) / 2));
+                    ball.y = (this.Height - Convert.ToInt32(paddle.height)) - 80;
+                    ball.xSpeed = Convert.ToSingle(Math.Sin(startDirection / (180 / 3.14)) * 6);
+                    ball.ySpeed = Convert.ToSingle(Math.Cos(startDirection / (180 / 3.14)) * 6);
+                    ballMoving = false;
+
+                    if (lives == 0)
+                    {
+                        gameTimer.Enabled = false;
+                        OnEnd();
+                    }
+                }
+
+                // Check for collision of ball with paddle, (incl. paddle movement)
+                ball.PaddleCollision(paddle);
+
+                // Check if ball has collided with any blocks
+                foreach (Block b in blocks)
+                {
+                    if (ball.BlockCollision(b))
+                    {
+                        playerScore++;
+                        scoreLabel.Text = $"Your Score:{playerScore}";
+                        b.hp--;
+                        if (instaBreak)
                         {
-                            NewLevel();
+                            b.hp = 0;
                         }
-                    }
+                        playerScore += 25;
+                        if (b.hp <= 0)
+                        {
+                            playerScore += 50;
+                            if (randGen.Next(0, 5) >= 4)
+                            {
+                                powerUps.Add(new PowerUp(b.x + b.width / 2 - 20, b.y + b.height / 2 - 20));
+                            }
 
-                    break;
+                            blocks.Remove(b);
+
+
+                            if (blocks.Count == 0)
+                            {
+                                NewLevel();
+                            }
+                        }
+
+                        break;
+                    }
                 }
             }
             
@@ -414,16 +422,16 @@ namespace BrickBreaker
                 switch (pwrUp.type)
                 {
                     case 1:
-                        e.Graphics.DrawImage(powerup1, pwrUp.x, pwrUp.y);
+                        e.Graphics.DrawImage(powerup1, pwrUp.x, pwrUp.y, 40, 40);
                         break;
                     case 2:
-                        e.Graphics.DrawImage(powerup2, pwrUp.x, pwrUp.y);
+                        e.Graphics.DrawImage(powerup2, pwrUp.x, pwrUp.y, 40, 40);
                         break;
                     case 3:
-                        e.Graphics.DrawImage(powerup3, pwrUp.x, pwrUp.y);
+                        e.Graphics.DrawImage(powerup3, pwrUp.x, pwrUp.y, 40, 40);
                         break;
                     case 4:
-                        e.Graphics.DrawImage(powerup5, pwrUp.x, pwrUp.y, 20, 20);
+                        e.Graphics.DrawImage(powerup5, pwrUp.x, pwrUp.y, 40, 40);
                         break;
                 }
             }
@@ -470,17 +478,10 @@ namespace BrickBreaker
             //e.Graphics.DrawImage(lives1Image, 0, 0);
 
             // Lives
-            switch (lives) {
-                case 1:
-                    e.Graphics.DrawImage(lives1Image, 710, 451, 144, 115);
-                    break;
-                case 2:
-                    e.Graphics.DrawImage(lives2Image, 710, 451, 144, 115);
-                    break;
-            }
-            if(lives >= 3)
+            for(int i = 0;i < lives;i++)
             {
-                e.Graphics.DrawImage(lives3Image, 710, 451, 144, 115);
+                e.Graphics.DrawImage(lifeImage, this.Width - 50 - i * 50, 451);
+
             }
         }
 
