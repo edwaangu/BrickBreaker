@@ -143,6 +143,7 @@ namespace BrickBreaker
             if(blocks.Count == 0)
             {
                 gameTimer.Enabled = false;
+                Form1.theScore = playerScore;
                 OnEnd();
                 return;
             }
@@ -220,6 +221,9 @@ namespace BrickBreaker
                     break;
                 case Keys.D:
                     directionRightKey = true;
+                    break;
+                case Keys.Escape:
+                    Application.Exit();
                     break;
                 default:
                     break;
@@ -325,6 +329,7 @@ namespace BrickBreaker
                     if (lives == 0)
                     {
                         gameTimer.Enabled = false;
+                        Form1.theScore = playerScore;
                         OnEnd();
                     }
                 }

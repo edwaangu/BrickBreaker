@@ -301,6 +301,16 @@ namespace BrickBreaker.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap ENTER {
+            get {
+                object obj = ResourceManager.GetObject("ENTER", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap EXIT {
             get {
                 object obj = ResourceManager.GetObject("EXIT", resourceCulture);
