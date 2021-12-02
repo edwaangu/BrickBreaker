@@ -241,10 +241,13 @@ namespace BrickBreaker
 
         private void gameTimer_Tick(object sender, EventArgs e)
         {
+            playerScore++;
             instaCounter++;
             speedCounter++;
             paddleCounter++;
             gunCounter++;
+
+            scoreLabel.Text = $"Your Score:{playerScore}";
 
             // Move the paddle
             if (leftArrowDown && paddle.x > 0)
@@ -294,8 +297,6 @@ namespace BrickBreaker
             if (ball.BottomCollision(this))
             {
                 lives--;                      
-                scoreLabel.Text = $"Your Score:{playerScore}";
-
            
                 // Moves the ball back to origin
                 ball.x = ((Convert.ToInt32(paddle.x) - (ball.size / 2)) + (Convert.ToInt32(paddle.width) / 2));
@@ -319,7 +320,7 @@ namespace BrickBreaker
             {
                 if (ball.BlockCollision(b))
                 {
-                    playerScore++;
+                    playerScore += 25;
                     scoreLabel.Text = $"Your Score:{playerScore}";
                     b.hp--;
                     if (instaBreak)
@@ -333,7 +334,7 @@ namespace BrickBreaker
                         }
                         
                         blocks.Remove(b);
-
+                        playerScore += 50;
 
                         if (blocks.Count == 0)
                         {
@@ -351,6 +352,7 @@ namespace BrickBreaker
                   if(powerUps[i].PaddleCollision(paddle)){
                         PowerUpMethod(powerUps[i].type);
                         powerUps.RemoveAt(i);
+                    playerScore += 100;
                         break;
                   }
                   if(powerUps[i].BottomCollision(this)){

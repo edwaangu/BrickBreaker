@@ -74,7 +74,7 @@ namespace BrickBreaker
             this.secondPlaceTitle.BackColor = System.Drawing.Color.Transparent;
             this.secondPlaceTitle.Font = new System.Drawing.Font("Microsoft YaHei", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.secondPlaceTitle.ForeColor = System.Drawing.SystemColors.Control;
-            this.secondPlaceTitle.Location = new System.Drawing.Point(374, 90);
+            this.secondPlaceTitle.Location = new System.Drawing.Point(372, 90);
             this.secondPlaceTitle.Name = "secondPlaceTitle";
             this.secondPlaceTitle.Size = new System.Drawing.Size(110, 28);
             this.secondPlaceTitle.TabIndex = 2;
@@ -113,7 +113,7 @@ namespace BrickBreaker
             this.secondPlace.BackColor = System.Drawing.Color.Transparent;
             this.secondPlace.Font = new System.Drawing.Font("Microsoft YaHei", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.secondPlace.ForeColor = System.Drawing.SystemColors.Control;
-            this.secondPlace.Location = new System.Drawing.Point(388, 136);
+            this.secondPlace.Location = new System.Drawing.Point(386, 136);
             this.secondPlace.Name = "secondPlace";
             this.secondPlace.Size = new System.Drawing.Size(73, 28);
             this.secondPlace.TabIndex = 7;

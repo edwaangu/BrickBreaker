@@ -74,10 +74,10 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Leaderboard.cs">
+    <Compile Include="Screens\Leaderboard.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Leaderboard.Designer.cs">
+    <Compile Include="Screens\Leaderboard.Designer.cs">
       <DependentUpon>Leaderboard.cs</DependentUpon>
     </Compile>
     <Compile Include="Paddle.cs" />
@@ -99,7 +99,7 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Leaderboard.resx">
+    <EmbeddedResource Include="Screens\Leaderboard.resx">
       <DependentUpon>Leaderboard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
