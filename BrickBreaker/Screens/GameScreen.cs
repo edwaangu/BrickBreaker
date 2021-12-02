@@ -255,12 +255,8 @@ namespace BrickBreaker
 
             paddle.updatePosition(this.Width);
 
-            // Move ball
-            if (ballMoving)
-            {   
-                ball.Move();
-            }
-            else
+            // Stop move ball
+            if(!ballMoving)
             {
                 ball.x = Convert.ToInt16(paddle.x + paddle.width / 2 - ball.size / 2);
 
@@ -284,61 +280,71 @@ namespace BrickBreaker
                 ball.currentBlockCol = "none";
             }
 
-            // Check for collision with top and side walls
-            ball.WallCollision(this);
-
-            // Check for ball hitting bottom of screen
-            if (ball.BottomCollision(this))
+            // Move ball
+            for (float i = 0; i < 10; i++)
             {
-                lives--;                      
-                scoreLabel.Text = $"Your Score:{playerScore}";
-
-           
-                // Moves the ball back to origin
-                ball.x = ((Convert.ToInt32(paddle.x) - (ball.size / 2)) + (Convert.ToInt32(paddle.width) / 2));
-                ball.y = (this.Height - Convert.ToInt32(paddle.height)) - 80;
-                ball.xSpeed = Convert.ToSingle(Math.Sin(startDirection / (180 / 3.14)) * 6);
-                ball.ySpeed = Convert.ToSingle(Math.Cos(startDirection / (180 / 3.14)) * 6);
-                ballMoving = false;
-
-                if (lives == 0)
+                if (ballMoving)
                 {
-                    gameTimer.Enabled = false;
-                    OnEnd();
+                    ball.Move(10);
                 }
-            }
 
-            // Check for collision of ball with paddle, (incl. paddle movement)
-            ball.PaddleCollision(paddle);
+                // Check for collision with top and side walls
+                ball.WallCollision(this);
 
-            // Check if ball has collided with any blocks
-            foreach (Block b in blocks)
-            {
-                if (ball.BlockCollision(b))
+                // Check for ball hitting bottom of screen
+                if (ball.BottomCollision(this))
                 {
-                    playerScore++;
+                    lives--;
                     scoreLabel.Text = $"Your Score:{playerScore}";
-                    b.hp--;
-                    if (instaBreak)
+
+
+                    // Moves the ball back to origin
+                    ball.x = ((Convert.ToInt32(paddle.x) - (ball.size / 2)) + (Convert.ToInt32(paddle.width) / 2));
+                    ball.y = (this.Height - Convert.ToInt32(paddle.height)) - 80;
+                    ball.xSpeed = Convert.ToSingle(Math.Sin(startDirection / (180 / 3.14)) * 6);
+                    ball.ySpeed = Convert.ToSingle(Math.Cos(startDirection / (180 / 3.14)) * 6);
+                    ballMoving = false;
+
+                    if (lives == 0)
                     {
-                        b.hp = 0;
+                        gameTimer.Enabled = false;
+                        OnEnd();
                     }
-                    if (b.hp <= 0)
+                }
+
+                // Check for collision of ball with paddle, (incl. paddle movement)
+                ball.PaddleCollision(paddle);
+
+                // Check if ball has collided with any blocks
+                foreach (Block b in blocks)
+                {
+                    if (ball.BlockCollision(b))
                     {
-                        if(randGen.Next(0, 5) >= 0){
-                            powerUps.Add(new PowerUp(b.x + b.width / 2 - 20, b.y + b.height / 2 - 20));
-                        }
-                        
-                        blocks.Remove(b);
-
-
-                        if (blocks.Count == 0)
+                        playerScore++;
+                        scoreLabel.Text = $"Your Score:{playerScore}";
+                        b.hp--;
+                        if (instaBreak)
                         {
-                            NewLevel();
+                            b.hp = 0;
                         }
-                    }
+                        if (b.hp <= 0)
+                        {
+                            if (randGen.Next(0, 5) >= 0)
+                            {
+                                powerUps.Add(new PowerUp(b.x + b.width / 2 - 20, b.y + b.height / 2 - 20));
+                            }
 
-                    break;
+                            blocks.Remove(b);
+
+
+                            if (blocks.Count == 0)
+                            {
+                                NewLevel();
+                            }
+                        }
+
+                        break;
+                    }
                 }
             }
             
