@@ -238,7 +238,6 @@ namespace BrickBreaker
 
         private void gameTimer_Tick(object sender, EventArgs e)
         {
-            playerScore++;
             instaCounter++;
             speedCounter++;
             paddleCounter++;
@@ -297,7 +296,6 @@ namespace BrickBreaker
                 // Check for ball hitting bottom of screen
                 if (ball.BottomCollision(this))
                 {
-                    playerScore += 25;
                     lives--;
                     scoreLabel.Text = $"Your Score:{playerScore}";
 
@@ -392,7 +390,7 @@ namespace BrickBreaker
         {
             // Goes to the game over screen
             Form form = this.FindForm();
-            MenuScreen ps = new MenuScreen();
+            ScoreScreen ps = new ScoreScreen();
             
             ps.Location = new Point((form.Width - ps.Width) / 2, (form.Height - ps.Height) / 2);
 
