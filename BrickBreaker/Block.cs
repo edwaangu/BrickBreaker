@@ -15,6 +15,7 @@ namespace BrickBreaker
         public int x;
         public int y; 
         public int hp;
+        public int maxhp;
         public Color colour;
 
         public static Random rand = new Random();
@@ -24,6 +25,7 @@ namespace BrickBreaker
             x = _x;
             y = _y;
             hp = _hp;
+            maxhp = _hp;
             colour = _colour;
         }
     }

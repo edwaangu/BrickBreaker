@@ -13,13 +13,20 @@ namespace BrickBreaker
     public partial class MenuScreen : UserControl
     {
 
-        Image playButtonImage = Properties.Resources.PLAY;
-        Image scoresButtonImage = Properties.Resources.HIGHSCORES;
-        Image exitButtonImage = Properties.Resources.EXIT;
+        // Audio
+        System.Windows.Media.MediaPlayer backMedia = new System.Windows.Media.MediaPlayer();
+        private void backMedia_MediaEnded(object sender, EventArgs e)
+        {
+            backMedia.Stop();
+            backMedia.Play();
+        }
 
         public MenuScreen()
         {
             InitializeComponent();
+            backMedia.Open(new Uri(Application.StartupPath + "/Resources/levitating.wav"));
+            backMedia.Play();
+            backMedia.MediaEnded += new EventHandler(backMedia_MediaEnded);
         }
         private void MenuScreen_Load(object sender, EventArgs e)
         {
@@ -34,6 +41,7 @@ namespace BrickBreaker
         private void playButton_Click(object sender, EventArgs e)
         {
             // Goes to the game screen
+            backMedia.Stop();
             GameScreen gs = new GameScreen();
             Form form = this.FindForm();
 
@@ -74,6 +82,7 @@ namespace BrickBreaker
 
         private void leaderboardButton_Click(object sender, EventArgs e)
         {
+            backMedia.Stop();
             ScoreScreen scs = new ScoreScreen();
             Form form = this.FindForm();
 

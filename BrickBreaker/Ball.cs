@@ -93,10 +93,12 @@ namespace BrickBreaker
 
             if (ballRec.IntersectsWith(paddleRec))
             {
+                // TOP
                 if (x + size > p.x && x < p.x + p.width && y + size > p.y && y + size * (3 / 4) < p.y + p.height / 4)
                 {
                     ySpeed = -Math.Abs(ySpeed);
                     y = p.y - size;
+                    xSpeed += ((x + size / 2) - (p.x + p.width / 2)) / 30;
                 }
 
                 // BOTTOM
@@ -120,6 +122,10 @@ namespace BrickBreaker
                     xSpeed = -Math.Abs(xSpeed);
                     x = p.x - size;
                 }
+
+                var breakSound = new System.Windows.Media.MediaPlayer();
+                breakSound.Open(new Uri(Application.StartupPath + "/Resources/collision.wav"));
+                breakSound.Play();
             }
         }
 

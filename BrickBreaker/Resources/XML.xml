@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <daroot>
+  <Score name="" score=""></Score>
+  <Score name="" score=""></Score>
+  <Score name="" score=""></Score>
   <Level>
     <Block>
       <x>295</x>

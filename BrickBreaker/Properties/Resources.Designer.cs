@@ -133,6 +133,16 @@ namespace BrickBreaker.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap baaaaalllspiiikke {
+            get {
+                object obj = ResourceManager.GetObject("baaaaalllspiiikke", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap BACK {
             get {
                 object obj = ResourceManager.GetObject("BACK", resourceCulture);
@@ -206,6 +216,16 @@ namespace BrickBreaker.Properties {
         public static System.Drawing.Bitmap BRICK_BROKEN {
             get {
                 object obj = ResourceManager.GetObject("BRICK_BROKEN", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap BRICK2 {
+            get {
+                object obj = ResourceManager.GetObject("BRICK2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
