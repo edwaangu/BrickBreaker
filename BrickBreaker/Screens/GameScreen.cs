@@ -413,7 +413,7 @@ namespace BrickBreaker
             backMedia.Stop();
             // Goes to the game over screen
             Form form = this.FindForm();
-            MenuScreen ps = new MenuScreen();
+            ScoreScreen ps = new ScoreScreen();
             
             ps.Location = new Point((form.Width - ps.Width) / 2, (form.Height - ps.Height) / 2);
 
