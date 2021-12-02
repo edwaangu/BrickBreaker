@@ -19,7 +19,6 @@ namespace BrickBreaker
 {
     public partial class GameScreen : UserControl
     {
-        #region global values
 
         //player1 button control keys - DO NOT CHANGE
         Boolean leftArrowDown, rightArrowDown;
@@ -63,9 +62,13 @@ namespace BrickBreaker
         bool ballMoving = false;
 
         // Images
-        Image brickImage = Properties.Resources.Brick;
+        Image brickImage = Properties.Resources.BRICK2;
+        Image crackedBrickImage = Properties.Resources.BRICK_BROKE;
+        Image brokenBrickImage = Properties.Resources.BRICK_BROKEN;
         Image ballImage = Properties.Resources.BALL;
+        Image instaBallImage = Properties.Resources.baaaaalllspiiikke;
         Image paddleImage = Properties.Resources.DABABY_PADDLe;
+        Image paddleImage2 = Properties.Resources.PADDLE_SPEED;
         Image lifeImage = Properties.Resources.LIFE;
 
 
@@ -75,15 +78,24 @@ namespace BrickBreaker
         Image powerup4 = Properties.Resources.gunpowerup;
         Image powerup5 = Properties.Resources.dababylaunchpng;
 
-        #endregion
+        // Audio
+        System.Windows.Media.MediaPlayer backMedia = new System.Windows.Media.MediaPlayer();
+        private void backMedia_MediaEnded(object sender, EventArgs e)
+        {
+            backMedia.Stop();
+            backMedia.Play();
+        }
 
+        // Score
         int playerScore;
-
 
 
         public GameScreen()
         {
             InitializeComponent();
+            backMedia.Open(new Uri(Application.StartupPath + "/Resources/[CLEAN] DaBaby - Ball If I Want To.wav"));
+            backMedia.Play();
+            backMedia.MediaEnded += new EventHandler(backMedia_MediaEnded);
             OnStart();
         }
 
@@ -177,7 +189,7 @@ namespace BrickBreaker
             ball = new Ball(ballX, ballY, 0, 0, ballSize, Properties.Resources.whiteBrick2);
 
             // Setup level
-            level = 3;
+            level = 0;
             SetupLevel(level);
 
             // start the game engine loop
@@ -296,6 +308,9 @@ namespace BrickBreaker
                 // Check for ball hitting bottom of screen
                 if (ball.BottomCollision(this))
                 {
+                    var deathSound = new System.Windows.Media.MediaPlayer();
+                    deathSound.Open(new Uri(Application.StartupPath + "/Resources/under.wav"));
+                    deathSound.Play();
                     lives--;
                     scoreLabel.Text = $"Your Score:{playerScore}";
 
@@ -322,9 +337,11 @@ namespace BrickBreaker
                 {
                     if (ball.BlockCollision(b))
                     {
-                        playerScore++;
                         scoreLabel.Text = $"Your Score:{playerScore}";
                         b.hp--;
+                        var breakSound = new System.Windows.Media.MediaPlayer();
+                        breakSound.Open(new Uri(Application.StartupPath + "/Resources/collision.wav"));
+                        breakSound.Play();
                         if (instaBreak)
                         {
                             b.hp = 0;
@@ -355,10 +372,14 @@ namespace BrickBreaker
             // Powerups
             for(int i = 0;i < powerUps.Count;i ++){
                   powerUps[i].Drop();
-                  if(powerUps[i].PaddleCollision(paddle)){
+                  if(powerUps[i].PaddleCollision(paddle))
+                  {
+                        var powerupSound = new System.Windows.Media.MediaPlayer();
+                        powerupSound.Open(new Uri(Application.StartupPath + "/Resources/powerup.wav"));
+                        powerupSound.Play();
                         PowerUpMethod(powerUps[i].type);
                         powerUps.RemoveAt(i);
-                    playerScore += 100;
+                        playerScore += 100;
                         break;
                   }
                   if(powerUps[i].BottomCollision(this)){
@@ -375,6 +396,7 @@ namespace BrickBreaker
                 speedIncrease = false;
                 ball.xSpeed /= 1.7f;
                 ball.ySpeed /= 1.7f;
+                paddle.speed /= 1.7f;
             }
             if (paddleCounter == 300 && paddleSize)
             {
@@ -388,6 +410,7 @@ namespace BrickBreaker
 
         public void OnEnd()
         {
+            backMedia.Stop();
             // Goes to the game over screen
             Form form = this.FindForm();
             ScoreScreen ps = new ScoreScreen();
@@ -403,13 +426,31 @@ namespace BrickBreaker
             // Draws paddle
             paddleBrush.Color = paddle.colour;
             //e.Graphics.FillRectangle(paddleBrush, paddle.x, paddle.y, paddle.width, paddle.height);
-            e.Graphics.DrawImage(paddleImage, paddle.x, paddle.y - 30, paddle.width, 50);
+            if (speedIncrease)
+            {
+                e.Graphics.DrawImage(paddleImage2, paddle.x, paddle.y - 30, paddle.width, 50);
+            }
+            else
+            {
+                e.Graphics.DrawImage(paddleImage, paddle.x, paddle.y - 30, paddle.width, 50);
+
+            }
             //e.Graphics.DrawRectangle(new Pen(Color.Green, 2), paddle.x, paddle.y, paddle.width, paddle.height);
 
             // Draws blocks
             foreach (Block b in blocks)
             {
-                e.Graphics.DrawImage(brickImage, b.x, b.y, b.width, b.height);
+                if (b.hp == b.maxhp)
+                {
+                    e.Graphics.DrawImage(brickImage, b.x, b.y, b.width, b.height);
+                }
+                else if (b.hp == b.maxhp-1)
+                {
+                    e.Graphics.DrawImage(crackedBrickImage, b.x, b.y, b.width, b.height);
+                }
+                else{
+                    e.Graphics.DrawImage(brokenBrickImage, b.x, b.y, b.width, b.height);
+                }
                 //e.Graphics.DrawRectangle(new Pen(Color.Red, 2), b.x, b.y, b.width, b.height);
                 //e.Graphics.DrawString(b.hp.ToString(), DefaultFont, new SolidBrush(Color.Black), b.x + b.width / 2, b.y + b.height / 2);
             }
@@ -436,33 +477,14 @@ namespace BrickBreaker
 
             // Draws ball
             //e.Graphics.DrawRectangle(new Pen(Color.Yellow, 2), ball.x, ball.y, ball.size, ball.size);
-            e.Graphics.DrawImage(ballImage, ball.x, ball.y);
-
-            /*
-            double dir = Math.Atan2(ball.ySpeed, ball.xSpeed);
-            for (int i = 0; i < 4; i++)
+            if (instaBreak)
             {
-                PointF basePoint = new PointF(ball.x, ball.y);
-                if (i == 1)
-                {
-                    basePoint = new PointF(ball.x + ball.size, ball.y);
-                }
-                if (i == 2)
-                {
-                    basePoint = new PointF(ball.x + ball.size, ball.y + ball.size);
-                }
-                if (i == 3)
-                {
-                    basePoint = new PointF(ball.x, ball.y + ball.size);
-                }
-
-                PointF currentPoint = new PointF(basePoint.X + Convert.ToSingle(Math.Cos(dir) * ball.size * 3 / 4), basePoint.Y + Convert.ToSingle(Math.Sin(dir) * ball.size * 3 / 4));
-                PointF point5Ago = new PointF(basePoint.X - (ball.xSpeed * 5), basePoint.Y - (ball.ySpeed * 5));
-                e.Graphics.DrawLine(new Pen(Color.Blue, 2), currentPoint, point5Ago);
-            }*/
-            //e.Graphics.DrawLine(new Pen(Color.Blue, 2), ball.x + ball.size / 2, ball.y + ball.size / 2, ball.x + ball.size / 2 + Convert.ToSingle(Math.Cos(dir) * ball.size * 3/4), ball.y + ball.size / 2 + Convert.ToSingle(Math.Sin(dir) * ball.size * 3/4));
-
-            //e.Graphics.DrawString(ball.collisionTotals.ToString(), new Font(FontFamily.GenericSansSerif, 20, FontStyle.Regular), new SolidBrush(Color.White), ball.x, ball.y);
+                e.Graphics.DrawImage(instaBallImage, ball.x, ball.y);
+            }
+            else
+            {
+                e.Graphics.DrawImage(ballImage, ball.x, ball.y);
+            }
 
             if (!ballMoving)
             {
@@ -491,8 +513,11 @@ namespace BrickBreaker
                     InstaBreak();
                 break;
                 case 2:
-                    speedIncrease = true;
-                    SpeedIncrease();
+                    if (speedIncrease == false)
+                    {
+                        SpeedIncrease();
+                        speedIncrease = true;
+                    }
                     break;
                 case 3:
                     paddleSize = true;
@@ -511,11 +536,9 @@ namespace BrickBreaker
         }
         public void SpeedIncrease()
         {
-            if (speedIncrease == true)
-            {
-                ball.xSpeed *= 1.7f;
-                ball.ySpeed *= 1.7f;
-            }
+            ball.xSpeed *= 1.7f;
+            ball.ySpeed *= 1.7f;
+            paddle.speed *= 1.7f;
         }
         public void IncreasePaddleSize()
         {
@@ -524,14 +547,6 @@ namespace BrickBreaker
                 paddle.width +=25;
 
             }
-        }
-        public void Gun()
-        {
-            if (gun == true)
-            {
-
-            }
-
         }
         public void ExtraLife()
         {

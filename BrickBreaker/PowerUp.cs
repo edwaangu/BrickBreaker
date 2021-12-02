@@ -11,14 +11,13 @@ namespace BrickBreaker
     {
         public int x, y, size = 40, type;
         Random randGen = new Random(); // 1 = paddle increase, 2 = speed increase, 3 = instabreak, 4 = gun, 5 = launch
-        public float ySpeed = 5;
+        public float ySpeed = 1;
 
         public PowerUp(int _x, int _y)
         {
             x = _x;
             y = _y;
             type = randGen.Next(1, 5);
-            type = 4;
         }
         public void Drop()
         {
