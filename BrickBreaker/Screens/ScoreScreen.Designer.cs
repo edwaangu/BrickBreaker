@@ -29,6 +29,7 @@ namespace BrickBreaker
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.secondPlaceName = new System.Windows.Forms.Label();
             this.secondPlaceScore = new System.Windows.Forms.Label();
             this.firstPlaceScore = new System.Windows.Forms.Label();
@@ -40,6 +41,7 @@ namespace BrickBreaker
             this.enterButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.scoreLabel = new System.Windows.Forms.Label();
+            this.updateTick = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // secondPlaceName
@@ -131,7 +133,7 @@ namespace BrickBreaker
             this.backButton.FlatAppearance.BorderSize = 0;
             this.backButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.backButton.Font = new System.Drawing.Font("Tahoma", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.backButton.Location = new System.Drawing.Point(700, 14);
+            this.backButton.Location = new System.Drawing.Point(699, 29);
             this.backButton.Name = "backButton";
             this.backButton.Size = new System.Drawing.Size(134, 75);
             this.backButton.TabIndex = 3;
@@ -178,6 +180,12 @@ namespace BrickBreaker
             this.scoreLabel.Text = "Your Score: -1";
             this.scoreLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // updateTick
+            // 
+            this.updateTick.Enabled = true;
+            this.updateTick.Interval = 1;
+            this.updateTick.Tick += new System.EventHandler(this.updateTick_Tick);
+            // 
             // ScoreScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -194,6 +202,7 @@ namespace BrickBreaker
             this.Controls.Add(this.firstPlaceName);
             this.Controls.Add(this.secondPlaceScore);
             this.Controls.Add(this.secondPlaceName);
+            this.DoubleBuffered = true;
             this.Name = "ScoreScreen";
             this.Size = new System.Drawing.Size(854, 542);
             this.Load += new System.EventHandler(this.ScoreScreen_Load);
@@ -215,5 +224,6 @@ namespace BrickBreaker
         private System.Windows.Forms.Button enterButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label scoreLabel;
+        private System.Windows.Forms.Timer updateTick;
     }
 }

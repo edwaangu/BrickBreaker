@@ -139,5 +139,26 @@ namespace BrickBreaker
             thirdPlaceName.Text = Form1.highscores[2].name;
             thirdPlaceScore.Text = Form1.highscores[2].score.ToString();
         }
+
+        private void updateTick_Tick(object sender, EventArgs e)
+        {
+
+            if (this.ActiveControl == backButton)
+            {
+                backButton.Location = new Point(700, 0);
+            }
+            else
+            {
+                backButton.Location = new Point(700, 29);
+            }
+            if (this.ActiveControl == enterButton)
+            {
+                enterButton.Location = new Point(513, 100);
+            }
+            else
+            {
+                enterButton.Location = new Point(513, 118);
+            }
+        }
     }
 }
