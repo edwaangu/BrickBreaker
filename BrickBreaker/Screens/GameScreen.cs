@@ -299,11 +299,11 @@ namespace BrickBreaker
             }
 
             // Move ball
-            for (float i = 0; i < 10; i++)
+            for (float i = 0; i < 20; i++)
             {
                 if (ballMoving)
                 {
-                    ball.Move(10);
+                    ball.Move(20);
                 }
 
                 // Check for collision with top and side walls
